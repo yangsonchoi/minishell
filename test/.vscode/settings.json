@@ -1,0 +1,14 @@
+{
+	"files.associations": {
+		"history.h": "c",
+		"readline.h": "c",
+		"stdlib.h": "c",
+		"stdio.h": "c",
+		"tilde.h": "c",
+		"signal.h": "c",
+		"stdbool.h": "c",
+		"string.h": "c",
+		"rlstdc.h": "c",
+		"rltypedefs.h": "c"
+	}
+}
