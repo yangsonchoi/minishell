@@ -7,8 +7,8 @@
 
 // #define READLINE_LIBRARY
 
-#include "./readline/readline.h"
-#include "./readline/history.h"
+#include "readline/readline.h"
+#include "readline/history.h"
 
 void	handler(int signum)
 {
