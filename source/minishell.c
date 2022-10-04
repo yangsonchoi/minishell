@@ -43,7 +43,9 @@ static void	reader_loop(arg)
 	{
 		input = readline("minishell$ ");
 		if (input == NULL)
-			return (1);
+			return (1); // exit? readline fail
+		else if(check_syntax(input) == false)
+			return (1); // exit? unclosed quate, / ; 
 		else
 		{
 			parse(input); // parser
@@ -55,11 +57,30 @@ static void	reader_loop(arg)
 	return (0);
 }
 
+bool	check_syntax(char *input)
+{
+	while (*input == '\0')
+	{
+		if (*input == '\"')
+			input = ft_strchr(input + 1, '\"');
+		if (input == NULL)
+			return (false);
+		if (*input == '\'')
+			input = ft_strchr(input + 1, '\'');
+		if (input == NULL)
+			return (false);
+		if (*input == '\\' || *input == ';')
+			return (false);
+		++input;
+	}
+	return (true);
+}
+
+
+
 enum e_type
 {
 	WORD,
-	QUOTE,
-	DOUBLE_QUOTE,
 	PIPE,
 	REDIRECTION_INPUT,
 	REDIRECTION_OUTPUT,
@@ -70,7 +91,7 @@ enum e_type
 typedef struct			s_token
 {
 	char				*word;
-	enum e_type	type;
+	enum e_type			type;
 	bool				expand;
 } 						t_token;
 
@@ -90,15 +111,13 @@ static void parse_input(char *input)
 	token_list = malloc(sizeof(t_token_list));
 	if (token_list == NULL)
 		return ;
-	token_list = break_input(input, token_list);
-
+	break_input(input, &token_list);
 
 
 }
 
 void	*break_input(char *input, t_token_list *token_list)
 {
-	t_list		*new_list;
 	int			i;
 	enum e_type	type;
 	void *new_token;
@@ -107,10 +126,74 @@ void	*break_input(char *input, t_token_list *token_list)
 		return ;
 	while (input[i])
 	{
-		new_token = get_next_token(input[i]);
-		new_list = 
+		new_token = get_next_token(&input[i], token_list);
+		new_list = 123;
 		while (whitespace(input[i]) == true)
 			i++;
 		
 	}
+}
+
+int	get_next_token(char *input, t_token_list *token_list)
+{
+	t_token	*new_token;
+	int len;
+	char *new_word;
+
+	len = 0;
+	new_token = malloc(sizeof(new_token));
+	if (new_token == NULL)
+		exit(MALLOC);
+	len = get_word(input, new_token)
+
+	return (len);
+}
+
+int	get_word(char *input, t_token *new_token)
+{
+	int len;
+
+	len = 0;
+	while (input[len])
+	{
+		if (input[len] == '|' || input[len] == '<' || input[len] == '>' || whitespace)
+			break;
+		else if (*input == '\'')
+			len += &input[len] - ft_strchr(&input[len+1], '\'' + 1);
+		else if (*input == '\"')
+			len += &input[len] - ft_strchr(&input[len+1], '\"' + 1);
+		len++;
+	}
+	if (len == 0)
+		len = get_type(input, new_token);
+	new_token->word = ft_substr(input, 0, len);
+	return (len);
+}
+
+int	get_type(char *input, t_token *new_token)
+{
+	int	len;
+
+	len = 1;
+	if (input[len] == '<')
+	{	
+		new_token->type = REDIRECTION_INPUT;
+		if (input[len + 1] == '<')
+		{
+			new_token->type = HERE_DOC;
+			len = 2;
+		}
+	}
+	else if (input[len] == '>')
+	{
+		new_token->type = REDIRECTION_OUTPUT;
+		if (input[len + 1] == '>')
+		{
+			new_token->type = APPEND;
+			len = 2;
+		}
+	}
+	else
+		new_token->type = PIPE;
+	return (len);
 }
