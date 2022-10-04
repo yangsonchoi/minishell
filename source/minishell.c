@@ -158,10 +158,14 @@ int	get_word(char *input, t_token *new_token)
 	{
 		if (input[len] == '|' || input[len] == '<' || input[len] == '>' || whitespace)
 			break;
-		else if (*input == '\'')
-			len += &input[len] - ft_strchr(&input[len+1], '\'' + 1);
-		else if (*input == '\"')
-			len += &input[len] - ft_strchr(&input[len+1], '\"' + 1);
+		else if (*input == '\'' || *input == '\"' || *input == '$')
+		{
+			if (*input == '\'')
+				len += ft_strchr(&input[len + 1], '\'') - &input[len];
+			else if (*input == '\"')
+				len += ft_strchr(&input[len + 1], '\"') - &input[len];
+			new_token->expand = true;
+		}
 		len++;
 	}
 	if (len == 0)
