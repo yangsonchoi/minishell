@@ -1,17 +1,28 @@
+#include "minishell.h"
 #include <stdio.h>
-#include <sys/wait.h>
-#include "../libft/libft.h"
+#include "libft.h"
 #include <stdbool.h>
+#include <readline/readline.h>
+#include <stdlib.h>
+#include "parse.h"
+
+char	**copy_envp(char **old_envp);
+static int reader_loop(char **mini_envp);
+bool	check_syntax(char *input);
+
 
 int	main(int argc, char **argv, char **envp)
 {
 	char	**mini_envp;
 
+	if (argc == 0 || argv == NULL) //
+		return (2); //
 	mini_envp = copy_envp(envp);
-	set_signal(); // setting signal ctrl+D, ctrl+C, ctrl+/
+	// set_signal(); // setting signal ctrl+D, ctrl+C, ctrl+/
 
-	reader_loop(); // 
-	exit_shell(); // free all and exit
+	reader_loop(mini_envp); // 
+	// exit_shell(); // free all and exit
+	return (0);
 }
 
 char	**copy_envp(char **old_envp)
@@ -35,82 +46,50 @@ char	**copy_envp(char **old_envp)
 	return (new_envp);
 }
 
-static void	reader_loop(arg)
+static int	reader_loop(char **mini_envp)
 {
 	char	*input;
 	
+	if (mini_envp == NULL)
+		return (1);
 	while (true)
 	{
 		input = readline("minishell$ ");
-		if (input == NULL)
-			return (1);
+		if (input == NULL || check_syntax(input) == false)
+		{
+			printf("syntax error");
+			free(input);
+		}
 		else
 		{
-			parse(input); // parser
-			add_history(input); // do we use history?
+			parse_input(input); // parser
+			// add_history(input); // do we use history?
 			free(input);
 			input = NULL;
 		}
 	}
+	printf("reader_loop done");
 	return (0);
 }
 
-enum e_type
+bool	check_syntax(char *input)
 {
-	WORD,
-	QUOTE,
-	DOUBLE_QUOTE,
-	PIPE,
-	REDIRECTION_INPUT,
-	REDIRECTION_OUTPUT,
-	HERE_DOC,
-	APPEND,
-};
-
-typedef struct			s_token
-{
-	char				*word;
-	enum e_type	type;
-	bool				expand;
-} 						t_token;
-
-typedef struct			s_token_list
-{
-	int		token_count;
-	bool	pipe;
-	t_list	*head;
-}						t_token_list;
-
-
-
-static void parse_input(char *input)
-{
-	t_token_list	*token_list;
-	
-	token_list = malloc(sizeof(t_token_list));
-	if (token_list == NULL)
-		return ;
-	token_list = break_input(input, token_list);
-
-
-
-}
-
-void	*break_input(char *input, t_token_list *token_list)
-{
-	t_list		*new_list;
-	int			i;
-	enum e_type	type;
-	void *new_token;
-	
-	if (input == NULL)
-		return ;
-	while (input[i])
+	while (*input != 0)
 	{
-		new_token = get_next_token(input[i]);
-		new_list = 
-		while (whitespace(input[i]) == true)
-			i++;
-		
+		if (*input == '\"')
+			input = ft_strchr(input + 1, '\"');
+		if (input == NULL)
+			return (false);
+		if (*input == '\'')
+			input = ft_strchr(input + 1, '\'');
+		if (input == NULL)
+			return (false);
+		if (*input == '\\' || *input == ';')
+			return (false);
+		input++;
 	}
+	return (true);
 }
+
+
+
