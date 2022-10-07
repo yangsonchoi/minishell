@@ -16,10 +16,17 @@ void	parse_input(char *input)
 	temp = token_list->head;
 	while (temp != NULL) 
 	{
-		printf("word : %s, type : %d\n", ((t_token *)temp->content)->word, ((t_token *)temp->content)->type);
+		printf("word : %s, type : %d, expand : %d\n", ((t_token *)temp->content)->word, ((t_token *)temp->content)->type, ((t_token *)temp->content)->expand);
 		temp = temp->next;
 	}
-	// expand_token(token_list); expand
+	expand_token(token_list);
+
+	temp = token_list->head;
+	while (temp != NULL) 
+	{
+		printf("word : %s\n", ((t_token *)temp->content)->word);
+		temp = temp->next;
+	}
 	// execute_pipe();
 	free_list(token_list);
 	free(token_list);

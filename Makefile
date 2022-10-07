@@ -11,18 +11,20 @@ RMFLAGS		= -rf
 LIBFT		= $(LIBFT_DIR)libft.a
 LIBFT_DIR	= ./libft/
 
-HDRS_LIST	= parse.h
-			  
+HDRS_LIST	= minishell.h	\
+			  parse.h			  
 HDRS_DIR	= ./include/
 HDRS		= $(addprefix $(HDRS_DIR), $(HDRS_LIST))
 
 SRCS_DIR	= ./source/
 P_DIR		= parse/
-SRCS_LIST	= minishell.c			\
-			  $(P_DIR)parse.c		\
-			  $(P_DIR)parse_token.c	\
-			  $(P_DIR)parse_free.c	\
-			  $(P_DIR)parse_expand.c
+SRCS_LIST	= minishell.c				\
+			  $(P_DIR)parse.c			\
+			  $(P_DIR)parse_token.c		\
+			  $(P_DIR)parse_free.c		\
+			  $(P_DIR)parse_expand.c	\
+			  $(P_DIR)parse_parameter.c	\
+			  $(P_DIR)parse_quote.c
 SRCS		= $(addprefix $(SRCS_DIR), $(SRCS_LIST))
 
 OBJS_DIR	= objects/

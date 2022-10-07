@@ -6,26 +6,30 @@
 #include <stdlib.h>
 #include "parse.h"
 
-char	**copy_envp(char **old_envp);
-static int reader_loop(char **mini_envp);
+void	copy_envp(char **old_envp);
+static int reader_loop(void);
 bool	check_syntax(char *input);
 
 
-int	main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv)
 {
-	char	**mini_envp;
-
+	int i = 0;
+	
 	if (argc == 0 || argv == NULL) //
 		return (2); //
-	mini_envp = copy_envp(envp);
+	copy_envp(environ);
+	while (environ[i]) //test
+	{
+		printf("%s\n", environ[i++]);
+	}
 	// set_signal(); // setting signal ctrl+D, ctrl+C, ctrl+/
 
-	reader_loop(mini_envp); // 
+	reader_loop(); // 
 	// exit_shell(); // free all and exit
 	return (0);
 }
 
-char	**copy_envp(char **old_envp)
+void	copy_envp(char **old_envp)
 {
 	char	**new_envp;
 	int		i;
@@ -35,7 +39,7 @@ char	**copy_envp(char **old_envp)
 		i++;
 	new_envp = malloc(sizeof(char *) * (i + 1));
 	if (new_envp == NULL)
-		return (NULL);
+		exit(1);
 	i = 0;
 	while (old_envp[i] != NULL)
 	{
@@ -43,15 +47,13 @@ char	**copy_envp(char **old_envp)
 		i++;
 	}
 	new_envp[i] = NULL;
-	return (new_envp);
+	old_envp = new_envp;
 }
 
-static int	reader_loop(char **mini_envp)
+static int	reader_loop(void)
 {
 	char	*input;
 	
-	if (mini_envp == NULL)
-		return (1);
 	while (true)
 	{
 		input = readline("minishell$ ");

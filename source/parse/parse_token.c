@@ -6,7 +6,6 @@
 static int	get_token(char *input, t_token_list *token_list);
 static int	get_word(char *input, t_token *new_token);
 static int	get_type(char *input, t_token *new_token);
-static bool	is_whitespace(char input);
 
 void	break_input(char *input, t_token_list *token_list)
 {
@@ -74,19 +73,19 @@ static int	get_type(char *input, t_token *new_token)
 	int	len;
 
 	len = 1;
-	if (input[len] == '<')
+	if (input[0] == '<')
 	{
 		new_token->type = REDIRECTION_INPUT;
-		if (input[len + 1] == '<')
+		if (input[1] == '<')
 		{
 			new_token->type = HERE_DOC;
 			len = 2;
 		}
 	}
-	else if (input[len] == '>')
+	else if (input[0] == '>')
 	{
 		new_token->type = REDIRECTION_OUTPUT;
-		if (input[len + 1] == '>')
+		if (input[1] == '>')
 		{
 			new_token->type = APPEND;
 			len = 2;
@@ -97,7 +96,7 @@ static int	get_type(char *input, t_token *new_token)
 	return (len);
 }
 
-static bool	is_whitespace(char input)
+bool	is_whitespace(char input)
 {
 	if (input == ' ' || (input <= 13 && input >= 9))
 		return (true);

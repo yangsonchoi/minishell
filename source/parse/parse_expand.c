@@ -1,4 +1,7 @@
 #include "parse.h"
+#include <stdio.h> //
+
+static void	expand_word(t_token *token);
 
 void	expand_token(t_token_list *token_list)
 {
@@ -9,32 +12,13 @@ void	expand_token(t_token_list *token_list)
 	{
 		if (((t_token *)temp->content)->expand == true)
 			expand_word((t_token *)temp->content);
+		printf("word : %s\n", ((t_token *)temp->content)->word); //
 		temp = temp->next;
 	}
 }
 
-void	expand_word(t_token *token)
+static void	expand_word(t_token *token)
 {
-		
-}
-
-char	*expand_parameter(t_token *token)
-{
-	char	*temp_word;
-	int		i;
-	bool	quote;
-	bool	d_quote;
-
-	i = 0;
-	quote = false;
-	d_quote = false;
-	temp_word = token->word;
-	while(raw_word[i] != 0)
-	{
-		if (raw_word[i] == '\"')
-			d_quote = !d_quote;
-		else if (raw_word[i] == '\'' && d_quote == false)
-			i += ft_strchr(&raw_word[i + 1], '\'') - &raw_word[i];
-		else if ()
-	}
+	expand_parameter(token);
+	expand_quote(token);
 }
