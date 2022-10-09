@@ -36,8 +36,8 @@ static int	get_token(char *input, t_token_list *token_list)
 	len = 0;
 	new_token->type = WORD;
 	len = get_word(input, new_token);
-	if (token_list->pipe == false && new_token->type == PIPE)
-		token_list->pipe = true;
+	if (new_token->type == PIPE)
+		token_list->pipe_count++;
 	new_list = ft_lstnew((void *)new_token);
 	ft_lstadd_back(&(token_list->head), new_list);
 	return (len);

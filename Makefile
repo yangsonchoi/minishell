@@ -12,19 +12,23 @@ LIBFT		= $(LIBFT_DIR)libft.a
 LIBFT_DIR	= ./libft/
 
 HDRS_LIST	= minishell.h	\
-			  parse.h			  
+			  parse.h		\
+			  execute.h	  
 HDRS_DIR	= ./include/
 HDRS		= $(addprefix $(HDRS_DIR), $(HDRS_LIST))
 
 SRCS_DIR	= ./source/
 P_DIR		= parse/
+E_DIR		= execute/
 SRCS_LIST	= minishell.c				\
 			  $(P_DIR)parse.c			\
 			  $(P_DIR)parse_token.c		\
 			  $(P_DIR)parse_free.c		\
 			  $(P_DIR)parse_expand.c	\
 			  $(P_DIR)parse_parameter.c	\
-			  $(P_DIR)parse_quote.c
+			  $(P_DIR)parse_quote.c		\
+			  $(E_DIR)execute.c			\
+			  $(E_DIR)execute_token.c
 SRCS		= $(addprefix $(SRCS_DIR), $(SRCS_LIST))
 
 OBJS_DIR	= objects/
@@ -39,6 +43,7 @@ $(NAME) : $(LIBFT) $(OBJS_DIR) $(OBJS)
 $(OBJS_DIR) :
 	mkdir -p $(OBJS_DIR)
 	mkdir -p $(OBJS_DIR)$(P_DIR)
+	mkdir -p $(OBJS_DIR)$(E_DIR)
 
 $(OBJS_DIR)%.o : $(SRCS_DIR)%.c $(HDRS)
 	$(CC) $(CFLAGS) -c $(INCLUDES) $< -o $@

@@ -1,9 +1,11 @@
 #include "parse.h"
+#include "minishell.h"
 #include <stdlib.h>
+#include "execute.h"
 
 #include <stdio.h> // printf
 
-void	parse_input(char *input)
+void	parse_input(char *input, t_data *data)
 {
 	t_token_list	*token_list;
 	
@@ -19,7 +21,7 @@ void	parse_input(char *input)
 		printf("word : %s, type : %d, expand : %d\n", ((t_token *)temp->content)->word, ((t_token *)temp->content)->type, ((t_token *)temp->content)->expand);
 		temp = temp->next;
 	}
-	expand_token(token_list);
+	expand_token(token_list, data);
 
 	temp = token_list->head;
 	while (temp != NULL) 
@@ -27,7 +29,7 @@ void	parse_input(char *input)
 		printf("word : %s\n", ((t_token *)temp->content)->word);
 		temp = temp->next;
 	}
-	// execute_pipe();
+	execute_line(token_list);
 	free_list(token_list);
 	free(token_list);
 }

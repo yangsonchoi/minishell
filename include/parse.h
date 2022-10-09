@@ -1,8 +1,9 @@
 #ifndef PARSE_H
 # define PARSE_H
 
-# include "../libft/libft.h"
-# include "stdbool.h"
+# include "minishell.h"
+# include "libft.h"
+# include <stdbool.h>
 
 enum e_type
 {
@@ -24,14 +25,14 @@ typedef struct			s_token
 typedef struct			s_token_list
 {
 	int		token_count;
-	bool	pipe;
+	int		pipe_count;
 	t_list	*head;
 }						t_token_list;
 
 /*
 ** parse.c
 */
-void	parse_input(char *input);
+void	parse_input(char *input, t_data *data);
 
 /*
 ** parse_token.c
@@ -42,12 +43,12 @@ bool	is_whitespace(char input);
 /*
 ** parse_expand.c
 */
-void	expand_token(t_token_list *token_list);
+void	expand_token(t_token_list *token_list, t_data *data);
 
 /*
 ** parse_parameter.c
 */
-void	expand_parameter(t_token *token);
+void	expand_parameter(t_token *token, t_data *data);
 void	join_string(t_token *token, char *front, char *mid, char *back);
 
 /*

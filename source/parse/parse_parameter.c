@@ -3,10 +3,10 @@
 #include <stdlib.h>
 #include "libft.h"
 
-static int expand_sign(t_token *token, int i);
-static char *convert_variable(char *parameter);
+static int expand_sign(t_token *token, int i, t_data *data);
+static char *convert_variable(char *parameter, t_data *data);
 
-void	expand_parameter(t_token *token)
+void	expand_parameter(t_token *token, t_data *data)
 {
 	int		i;
 	bool	d_quote;
@@ -23,13 +23,13 @@ void	expand_parameter(t_token *token)
 		else if ((token->word)[i] == '\'' && d_quote == false)
 			i += ft_strchr(&(token->word)[i + 1], '\'') - &(token->word)[i];
 		else if ((token->word)[i] == '$')
-			i += expand_sign(token, i);
+			i += expand_sign(token, i, data);
 		else
 			i++;
 	}
 }
 
-static int expand_sign(t_token *token, int i)
+static int expand_sign(t_token *token, int i, t_data *data)
 {
 	char	*input;
 	char	*front_str;
@@ -47,14 +47,14 @@ static int expand_sign(t_token *token, int i)
 			break;
 		len++;
 	}
-	parameter = convert_variable(ft_substr(input, i + 1, len));
+	parameter = convert_variable(ft_substr(input, i + 1, len), data);
 	back_str = ft_substr(input, i + 1 + len, ft_strlen(&input[i + 1 + len]));
 	len = ft_strlen(parameter);
 	join_string(token, front_str, parameter, back_str);
 	return (len);
 }
 
-static char *convert_variable(char *parameter)
+static char *convert_variable(char *parameter, t_data *data)
 {
     int     i;
     char    *value;
@@ -63,14 +63,14 @@ static char *convert_variable(char *parameter)
 	i = 0;
 	len = ft_strlen(parameter);
 	value = ft_strdup("");
-    while(environ[i] != NULL)
+    while(data->envp[i] != NULL)
 	{
-		if (ft_strncmp(environ[i], parameter, len) == 0)
+		if (ft_strncmp(data->envp[i], parameter, len) == 0)
 		{
-			if (environ[i][len] == '=')
+			if (data->envp[i][len] == '=')
 			{
 				free(value);
-				value = ft_substr(environ[i], len + 1, ft_strlen(&environ[i][len + 1]));
+				value = ft_substr(data->envp[i], len + 1, ft_strlen(&data->envp[i][len + 1]));
 				break;
 			}	
 		}

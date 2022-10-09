@@ -6,30 +6,40 @@
 #include <stdlib.h>
 #include "parse.h"
 
-void	copy_envp(char **old_envp);
-static int reader_loop(void);
-bool	check_syntax(char *input);
+static void	initialize(t_data *data, char **environ);
+static void	copy_envp(t_data *data, char **old_envp);
+static int reader_loop(t_data *data);
+static bool	check_syntax(char *input);
 
 
-int	main(int argc, char **argv)
+int	main(int argc, char **argv, char **environ)
 {
-	int i = 0;
-	
+	t_data *data;
+
 	if (argc == 0 || argv == NULL) //
 		return (2); //
-	copy_envp(environ);
-	while (environ[i]) //test
+	data = malloc(sizeof(t_data));
+	initialize(data, environ);
+	int	i = 0;
+	while (data->envp[i]) //test
 	{
-		printf("%s\n", environ[i++]);
+		printf("%s\n", data->envp[i++]);
 	}
 	// set_signal(); // setting signal ctrl+D, ctrl+C, ctrl+/
 
-	reader_loop(); // 
+	reader_loop(data); // 
 	// exit_shell(); // free all and exit
 	return (0);
 }
 
-void	copy_envp(char **old_envp)
+static void	initialize(t_data *data, char **environ)
+{
+	copy_envp(data, environ);
+	data->is_interactive = true;
+	data->exit_status = 0;
+}
+
+static void	copy_envp(t_data *data, char **old_envp)
 {
 	char	**new_envp;
 	int		i;
@@ -47,10 +57,10 @@ void	copy_envp(char **old_envp)
 		i++;
 	}
 	new_envp[i] = NULL;
-	old_envp = new_envp;
+	data->envp = new_envp;
 }
 
-static int	reader_loop(void)
+static int	reader_loop(t_data *data)
 {
 	char	*input;
 	
@@ -64,7 +74,7 @@ static int	reader_loop(void)
 		}
 		else
 		{
-			parse_input(input); // parser
+			parse_input(input, data); // parser
 			// add_history(input); // do we use history?
 			free(input);
 			input = NULL;
@@ -74,7 +84,7 @@ static int	reader_loop(void)
 	return (0);
 }
 
-bool	check_syntax(char *input)
+static bool	check_syntax(char *input)
 {
 	while (*input != 0)
 	{
@@ -92,6 +102,3 @@ bool	check_syntax(char *input)
 	}
 	return (true);
 }
-
-
-
