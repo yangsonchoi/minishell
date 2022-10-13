@@ -4,7 +4,7 @@
 #include "libft.h"
 
 static int expand_sign(t_token *token, int i, t_data *data);
-static char *convert_variable(char *parameter, t_data *data);
+
 
 void	expand_parameter(t_token *token, t_data *data)
 {
@@ -47,37 +47,11 @@ static int expand_sign(t_token *token, int i, t_data *data)
 			break;
 		len++;
 	}
-	parameter = convert_variable(ft_substr(input, i + 1, len), data);
+	parameter = getenv(input);
 	back_str = ft_substr(input, i + 1 + len, ft_strlen(&input[i + 1 + len]));
 	len = ft_strlen(parameter);
 	join_string(token, front_str, parameter, back_str);
 	return (len);
-}
-
-static char *convert_variable(char *parameter, t_data *data)
-{
-    int     i;
-    char    *value;
-	int		len;
-
-	i = 0;
-	len = ft_strlen(parameter);
-	value = ft_strdup("");
-    while(data->envp[i] != NULL)
-	{
-		if (ft_strncmp(data->envp[i], parameter, len) == 0)
-		{
-			if (data->envp[i][len] == '=')
-			{
-				free(value);
-				value = ft_substr(data->envp[i], len + 1, ft_strlen(&data->envp[i][len + 1]));
-				break;
-			}	
-		}
-		i++;
-	}
-	free(parameter);
-	return(value);
 }
 
 void join_string(t_token *token, char *front, char *mid, char *back)
