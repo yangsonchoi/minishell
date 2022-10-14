@@ -13,7 +13,7 @@ void    builtin_pwd(char **cmd, t_data *data)
 
     if (cmd[1] != NULL)
     {
-        print_error()
+        print_error(cmd[0], "usage: pwd with no option or argument", false);
         data->exit_status = 1;
     }
     else
@@ -21,6 +21,6 @@ void    builtin_pwd(char **cmd, t_data *data)
         pwd = getcwd(NULL, 0);
         printf("%s\n", pwd);
         free(pwd);
-        data->exit_status = 0
+        data->exit_status = 0;
     }
 }

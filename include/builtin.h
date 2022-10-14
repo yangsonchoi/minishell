@@ -24,7 +24,23 @@ void    execute_builtin(char **cmd, t_data *data, enum e_builtin_type type);
 void    builtin_echo(char **cmd, t_data *data);
 
 /*
-** builtin.c
+** builtin_cd.c
 */
+void    builtin_cd(char **cmd, t_data *data);
+
+/*
+** builtin_pwd.c
+*/
+void    builtin_pwd(char **cmd, t_data *data);
+
+/*
+** builtin_pwd.c
+*/
+void    builtin_pwd(char **cmd, t_data *data);
+
+/*
+** builtin_pwd.c
+*/
+
 
 #endif

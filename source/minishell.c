@@ -5,9 +5,9 @@
 #include <readline/readline.h>
 #include <stdlib.h>
 #include "parse.h"
+#include "utils.h"
 
 static void	initialize(t_data *data, char **environ);
-static void	copy_envp(t_data *data, char **old_envp);
 static int reader_loop(t_data *data);
 static bool	check_syntax(char *input);
 
@@ -39,26 +39,7 @@ static void	initialize(t_data *data, char **environ)
 	data->exit_status = 0;
 }
 
-static void	copy_envp(t_data *data, char **old_envp)
-{
-	char	**new_envp;
-	int		i;
 
-	i = 0;
-	while (old_envp[i] != NULL)
-		i++;
-	new_envp = malloc(sizeof(char *) * (i + 1));
-	if (new_envp == NULL)
-		exit(1);
-	i = 0;
-	while (old_envp[i] != NULL)
-	{
-		new_envp[i] = ft_strdup(old_envp[i]);
-		i++;
-	}
-	new_envp[i] = NULL;
-	data->envp = new_envp;
-}
 
 static int	reader_loop(t_data *data)
 {

@@ -13,6 +13,7 @@ int	main(int argc, char **argv, char **envp)
 
 	int i = 0;
 	pid_t pid;
+	char *check;
 
 	if (check_hello())
 	{
@@ -21,8 +22,11 @@ int	main(int argc, char **argv, char **envp)
 		printf("pid = %d\n", pid);
 		while (environ[i])
 		{
-			printf("%s\n", environ[i++]);
+			printf("%p, %s\n", &environ[i], environ[i]);
+			i++;
 		}
+		check = getenv("hello");
+		printf("%p, %s\n", &check, getenv("hello"));
 		exit(1);
 	}
 	printf("lv 1, envirion : %p, envp : %p\n", environ, envp);

@@ -37,7 +37,9 @@ SRCS_LIST	= minishell.c				\
 			  $(B_DIR)builtin_echo.c	\
 			  $(B_DIR)builtin_cd.c		\
 			  $(B_DIR)builtin_pwd.c		\
-			  $(U_DIR)error.c
+			  $(B_DIR)builtin_export.c	\
+			  $(U_DIR)error.c			\
+			  $(U_DIR)envp.c
 
 
 SRCS		= $(addprefix $(SRCS_DIR), $(SRCS_LIST))
