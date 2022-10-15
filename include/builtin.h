@@ -1,5 +1,7 @@
 #ifndef BUILTIN_H
-# define BULITIN_H
+# define BUILTIN_H
+
+# include "minishell.h"
 
 enum e_builtin_type
 {
@@ -11,7 +13,6 @@ enum e_builtin_type
     ENV,
     EXIT,
 };
-
 
 /*
 ** builtin.c
@@ -34,13 +35,24 @@ void    builtin_cd(char **cmd, t_data *data);
 void    builtin_pwd(char **cmd, t_data *data);
 
 /*
-** builtin_pwd.c
+** builtin_export.c
 */
-void    builtin_pwd(char **cmd, t_data *data);
+void    builtin_export(char **cmd, t_data *data);
 
 /*
-** builtin_pwd.c
+** builtin_unset.c
 */
+void    builtin_unset(char **cmd, t_data *data);
+
+/*
+** builtin_env.c
+*/
+void    builtin_env(char **cmd, t_data *data);
+
+/*
+** builtin_exit.c
+*/
+void    builtin_exit(char **cmd, t_data *data);
 
 
 #endif

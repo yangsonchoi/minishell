@@ -8,7 +8,7 @@ void    print_error(char *cmd, char *input, bool err_status)
     char *error_str;
     
     error_str = strerror(errno);
-    write(STDERR_FILENO, "minishell: ", )
+    write(STDERR_FILENO, "minishell: ", 12);
     if (cmd != NULL)
     {
         write(STDERR_FILENO, cmd, ft_strlen(cmd));

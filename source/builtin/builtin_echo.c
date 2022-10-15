@@ -21,6 +21,6 @@ void    builtin_echo(char **cmd, t_data *data)
             printf("%s", cmd[i]);
     }
     if (ft_strncmp(cmd[1], "-n", ft_strlen(cmd[1])) == 0)
-        print("\n");
+        printf("\n");
     data->exit_status = 0;
 }

@@ -4,21 +4,23 @@
 
 #include "stdio.h"
 
+static bool check_builtin(char *cmd, enum e_builtin_type *type);
+
 void	execute_subshell(t_cmd *cmd_list, t_data *data)
 {
     enum e_builtin_type builtin_type;
 
-	if (cmd_list->redirect !=NULL)
-        (perform_redirection(*cmd_list), data);
+	// if (cmd_list->redirect != NULL)
+    //     (perform_redirection(*cmd_list), data);
     if (check_builtin(cmd_list->cmd[0], &builtin_type) == true)
         execute_builtin(cmd_list->cmd, data, builtin_type);
-    else
-        execute_program(); // 
+    // else
+    //     execute_program(); // 
 
-    if(data->is_interactive == true)
-        (default_redierction());
-    else 
-     exit(data->exit_status);
+    // if(data->is_interactive == true)
+    //     (default_redierction());
+    // else 
+    //  exit(data->exit_status);
 
 }
 

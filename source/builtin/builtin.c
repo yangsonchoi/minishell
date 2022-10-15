@@ -3,8 +3,6 @@
 
 void    execute_builtin(char **cmd, t_data *data, enum e_builtin_type type)
 {
-    enum e_builtin_type type;
-
     if (type == ECHO)
         builtin_echo(cmd, data);
     else if (type == CD)

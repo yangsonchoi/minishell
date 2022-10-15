@@ -43,7 +43,8 @@ bool	is_whitespace(char input);
 /*
 ** parse_expand.c
 */
-void	expand_token(t_token_list *token_list, t_data *data);
+void	expand_token_list(t_token_list *token_list, t_data *data);
+void	expand_token(t_token *token, t_data *data);
 
 /*
 ** parse_parameter.c

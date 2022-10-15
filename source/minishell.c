@@ -10,7 +10,7 @@
 static void	initialize(t_data *data, char **environ);
 static int reader_loop(t_data *data);
 static bool	check_syntax(char *input);
-
+static void	copy_envp(t_data *data, char **old_envp);
 
 int	main(int argc, char **argv, char **environ)
 {
@@ -82,4 +82,28 @@ static bool	check_syntax(char *input)
 		input++;
 	}
 	return (true);
+}
+
+static void	copy_envp(t_data *data, char **old_envp)
+{
+	char	**new_envp;
+	int		i;
+
+	i = 0;
+	while (old_envp[i] != NULL)
+        i++;
+	new_envp = malloc(sizeof(char *) * (i + 1));
+	if (new_envp == NULL)
+    {
+		print_error(NULL, "malloc failed", false);
+        return ;
+    }
+    i = 0;
+	while (old_envp[i] != NULL)
+	{
+        new_envp[i] = ft_strdup(old_envp[i]);
+        i++;
+    }
+	new_envp[i] = NULL;
+	data->envp = new_envp;
 }

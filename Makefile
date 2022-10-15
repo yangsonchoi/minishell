@@ -38,6 +38,9 @@ SRCS_LIST	= minishell.c				\
 			  $(B_DIR)builtin_cd.c		\
 			  $(B_DIR)builtin_pwd.c		\
 			  $(B_DIR)builtin_export.c	\
+			  $(B_DIR)builtin_unset.c	\
+			  $(B_DIR)builtin_env.c		\
+			  $(B_DIR)builtin_exit.c	\
 			  $(U_DIR)error.c			\
 			  $(U_DIR)envp.c
 
@@ -57,6 +60,8 @@ $(OBJS_DIR) :
 	mkdir -p $(OBJS_DIR)
 	mkdir -p $(OBJS_DIR)$(P_DIR)
 	mkdir -p $(OBJS_DIR)$(E_DIR)
+	mkdir -p $(OBJS_DIR)$(B_DIR)
+	mkdir -p $(OBJS_DIR)$(U_DIR)
 
 $(OBJS_DIR)%.o : $(SRCS_DIR)%.c $(HDRS)
 	$(CC) $(CFLAGS) -c $(INCLUDES) $< -o $@

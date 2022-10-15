@@ -21,7 +21,7 @@ void	parse_input(char *input, t_data *data)
 		printf("word : %s, type : %d, expand : %d\n", ((t_token *)temp->content)->word, ((t_token *)temp->content)->type, ((t_token *)temp->content)->expand);
 		temp = temp->next;
 	}
-	expand_token(token_list, data);
+	expand_token_list(token_list, data);
 	temp = token_list->head;
 	while (temp != NULL) 
 	{

@@ -36,11 +36,11 @@ void    execute_line(t_token_list *token_list, t_data *data)
 			}
 			i++;
 		}
+		// if (token_list->pipe_count > 0)
+		// 	execute_pipe(cmd_list, token_list->pipe_count);
+		// while (cmd_list != NULL)
+		execute_subshell(cmd_list[0], data);
 	}
-	// if (token_list->pipe_count > 0)
-	// 	execute_pipe(cmd_list, token_list->pipe_count);
-	// while (cmd_list != NULL)
-	execute_subshell(cmd_list, data);
 }
 
 static bool	check_pipe(t_token_list *token_list)
