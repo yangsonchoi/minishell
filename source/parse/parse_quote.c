@@ -1,7 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_quote.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yachoi <yachoi@student.42seoul.kr>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/16 15:05:08 by yachoi            #+#    #+#             */
+/*   Updated: 2022/10/16 15:05:09 by yachoi           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parse.h"
 #include "libft.h"
 
-static void erase_quote(t_token *token, int i, int len);
+static void	erase_quote(t_token *token, int i, int len);
 
 void	expand_quote(t_token *token)
 {
@@ -32,7 +44,7 @@ void	expand_quote(t_token *token)
 	}
 }
 
-static void erase_quote(t_token *token, int i, int len)
+static void	erase_quote(t_token *token, int i, int len)
 {
 	char	*input;
 	char	*front_str;

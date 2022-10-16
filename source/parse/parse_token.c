@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_token.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yachoi <yachoi@student.42seoul.kr>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/16 15:04:24 by yachoi            #+#    #+#             */
+/*   Updated: 2022/10/16 15:04:26 by yachoi           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parse.h"
 #include <stdlib.h>
 #include <stdbool.h>
@@ -10,7 +22,7 @@ static int	get_type(char *input, t_token *new_token);
 void	break_input(char *input, t_token_list *token_list)
 {
 	int			i;
-	
+
 	if (input == NULL)
 		return ;
 	i = 0;
@@ -45,13 +57,14 @@ static int	get_token(char *input, t_token_list *token_list)
 
 static int	get_word(char *input, t_token *new_token)
 {
-	int len;
+	int	len;
 
 	len = 0;
 	while (input[len] != 0)
 	{
-		if (input[len] == '|' || input[len] == '<' || input[len] == '>' || is_whitespace(input[len]) == true)
-			break;
+		if (input[len] == '|' || input[len] == '<' \
+			|| input[len] == '>' || is_whitespace(input[len]) == true)
+			break ;
 		else if (input[len] == '\'' || input[len] == '\"' || input[len] == '$')
 		{
 			if (input[len] == '\'')

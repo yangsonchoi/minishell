@@ -8,26 +8,25 @@
 #include "utils.h"
 
 static void	initialize(t_data *data, char **environ);
-static int reader_loop(t_data *data);
+static void	reader_loop(t_data *data);
 static bool	check_syntax(char *input);
 static void	copy_envp(t_data *data, char **old_envp);
 
 int	main(int argc, char **argv, char **environ)
 {
-	t_data *data;
+	t_data data;
 
-	if (argc == 0 || argv == NULL) //
-		return (2); //
-	data = malloc(sizeof(t_data));
-	initialize(data, environ);
+	(void)argc;
+	(void)argv;
+	initialize(&data, environ);
 	int	i = 0;
-	while (data->envp[i]) //test
+	while (data.envp[i]) //test
 	{
-		printf("%s\n", data->envp[i++]);
+		printf("%s\n", data.envp[i++]);
 	}
 	// set_signal(); // setting signal ctrl+D, ctrl+C, ctrl+/
 
-	reader_loop(data); // 
+	reader_loop(&data); // 
 	// exit_shell(); // free all and exit
 	return (0);
 }
@@ -41,7 +40,7 @@ static void	initialize(t_data *data, char **environ)
 
 
 
-static int	reader_loop(t_data *data)
+static void	reader_loop(t_data *data)
 {
 	char	*input;
 	
@@ -50,7 +49,7 @@ static int	reader_loop(t_data *data)
 		input = readline("minishell$ ");
 		if (input == NULL || check_syntax(input) == false)
 		{
-			printf("syntax error");
+			printf("syntax error"); // writwe 2
 			free(input);
 		}
 		else
@@ -61,8 +60,7 @@ static int	reader_loop(t_data *data)
 			input = NULL;
 		}
 	}
-	printf("reader_loop done");
-	return (0);
+	printf("reader_loop done"); // test
 }
 
 static bool	check_syntax(char *input)
@@ -70,14 +68,18 @@ static bool	check_syntax(char *input)
 	while (*input != 0)
 	{
 		if (*input == '\"')
+		{
 			input = ft_strchr(input + 1, '\"');
-		if (input == NULL)
-			return (false);
-		if (*input == '\'')
+			if (input == NULL)
+				return (false);
+		}
+		else if (*input == '\'')
+		{
 			input = ft_strchr(input + 1, '\'');
-		if (input == NULL)
-			return (false);
-		if (*input == '\\' || *input == ';')
+			if (input == NULL)
+				return (false);
+		}
+		else if (*input == '\\' || *input == ';')
 			return (false);
 		input++;
 	}
@@ -91,19 +93,19 @@ static void	copy_envp(t_data *data, char **old_envp)
 
 	i = 0;
 	while (old_envp[i] != NULL)
-        i++;
+		i++;
 	new_envp = malloc(sizeof(char *) * (i + 1));
 	if (new_envp == NULL)
-    {
+	{
 		print_error(NULL, "malloc failed", false);
-        return ;
-    }
-    i = 0;
+		return ;
+	}
+	i = 0;
 	while (old_envp[i] != NULL)
 	{
-        new_envp[i] = ft_strdup(old_envp[i]);
-        i++;
-    }
+		new_envp[i] = ft_strdup(old_envp[i]);
+		i++;
+	}
 	new_envp[i] = NULL;
 	data->envp = new_envp;
 }

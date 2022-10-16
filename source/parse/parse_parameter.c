@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_parameter.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yachoi <yachoi@student.42seoul.kr>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/16 15:06:56 by yachoi            #+#    #+#             */
+/*   Updated: 2022/10/16 15:06:58 by yachoi           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parse.h"
 #include "minishell.h"
 #include <stdlib.h>
@@ -29,7 +41,7 @@ void	expand_parameter(t_token *token, t_data *data)
 	}
 }
 
-static int expand_sign(t_token *token, int i, t_data *data)
+static int	expand_sign(t_token *token, int i, t_data *data)
 {
 	char	*input;
 	char	*front_str;
@@ -58,13 +70,13 @@ static int	convert_variable(char *parameter, char *input)
 {
 	int		len;
 	char	*target;
-	
-	len = 0;	
+
+	len = 0;
 	while (input[len] != 0)
 	{
 		if (is_whitespace(input[len]) == true || input[len] == '\'' \
 			|| input[len] == '\"' || input[len] == '$')
-			break;
+			break ;
 		len++;
 	}
 	target = ft_substr(input, 0, len);
@@ -75,10 +87,10 @@ static int	convert_variable(char *parameter, char *input)
 	return (len);
 }
 
-void join_string(t_token *token, char *front, char *mid, char *back)
+void	join_string(t_token *token, char *front, char *mid, char *back)
 {
-	char *temp;
-	char *result;
+	char	*temp;
+	char	*result;
 
 	temp = ft_strjoin(front, mid);
 	free(front);

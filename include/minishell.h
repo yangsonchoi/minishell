@@ -3,12 +3,12 @@
 
 # include <stdbool.h>
 
-typedef struct      s_data
+typedef struct		s_data
 {
-    char            **envp;
-    int             exit_status;
-    bool            is_interactive;
-}                   t_data;
+	char			**envp;
+	int				exit_status;
+	bool			is_interactive;
+}					t_data;
 
 
 #endif

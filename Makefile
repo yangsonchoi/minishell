@@ -24,7 +24,7 @@ E_DIR		= execute/
 B_DIR		= builtin/
 U_DIR		= utils/
 SRCS_LIST	= minishell.c				\
-			  $(P_DIR)parse.c			\
+			  $(P_DIR)parse.c		 	\
 			  $(P_DIR)parse_token.c		\
 			  $(P_DIR)parse_free.c		\
 			  $(P_DIR)parse_expand.c	\
@@ -42,7 +42,8 @@ SRCS_LIST	= minishell.c				\
 			  $(B_DIR)builtin_env.c		\
 			  $(B_DIR)builtin_exit.c	\
 			  $(U_DIR)error.c			\
-			  $(U_DIR)envp.c
+			  $(U_DIR)envp_add_change.c \
+			  $(U_DIR)envp_remove_print.c
 
 
 SRCS		= $(addprefix $(SRCS_DIR), $(SRCS_LIST))
