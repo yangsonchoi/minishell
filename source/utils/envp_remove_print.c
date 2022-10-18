@@ -71,7 +71,7 @@ void	print_envp(t_data *data, char *str)
 	i = 0;
 	if (str != NULL)
 	{
-		while (data->envp[i] == NULL)
+		while (data->envp[i] != NULL)
 		{
 			printf("%s", str);
 			printf("%s\n", data->envp[i]);
@@ -80,7 +80,7 @@ void	print_envp(t_data *data, char *str)
 	}
 	else
 	{
-		while (data->envp[i] == NULL)
+		while (data->envp[i] != NULL)
 		{
 			printf("%s\n", data->envp[i]);
 			i++;

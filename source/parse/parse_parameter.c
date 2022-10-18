@@ -16,7 +16,7 @@
 #include "libft.h"
 
 static int	expand_sign(t_token *token, int i, t_data *data);
-static int	convert_variable(char *parameter, char *input);
+static int	convert_variable(char **parameter, char *input);
 
 void	expand_parameter(t_token *token, t_data *data)
 {
@@ -59,17 +59,18 @@ static int	expand_sign(t_token *token, int i, t_data *data)
 		len++;
 	}
 	else
-		len += convert_variable(parameter, &input[i + 1]);
+		len += convert_variable(&parameter, &input[i + 1]);
 	back_str = ft_substr(input, i + 1 + len, ft_strlen(&input[i + 1 + len]));
 	len = ft_strlen(parameter);
 	join_string(token, front_str, parameter, back_str);
 	return (len);
 }
 
-static int	convert_variable(char *parameter, char *input)
+static int	convert_variable(char **parameter, char *input)
 {
 	int		len;
 	char	*target;
+	char	*temp;
 
 	len = 0;
 	while (input[len] != 0)
@@ -80,10 +81,11 @@ static int	convert_variable(char *parameter, char *input)
 		len++;
 	}
 	target = ft_substr(input, 0, len);
-	parameter = getenv(target);
+	temp = getenv(target);
+	if (temp == NULL)
+		temp = "";
+	*parameter = ft_strdup(temp);
 	free(target);
-	if (parameter == NULL)
-		parameter = ft_strdup("");
 	return (len);
 }
 

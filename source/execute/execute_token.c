@@ -31,7 +31,6 @@ void	token_to_command(t_token_list *token_list, t_cmd **cmd_list)
 	i = 0;
 	while (i < token_list->pipe_count + 1)
 	{
-		printf("here11\n");
 		new_cmd = malloc(sizeof(t_cmd));
 		if (new_cmd == NULL)
 		{
@@ -107,7 +106,7 @@ static void	copy_cmd_redirect(t_list *cmd, t_cmd *new_cmd)
 			i = 0;
 			while (cmd != NULL && i < 2)
 			{
-				new_cmd->redirect[red_cnt] = cmd->content;
+				new_cmd->redirect[red_cnt++] = cmd->content;
 				if (i++ == 0)
 					cmd = cmd->next;
 			}

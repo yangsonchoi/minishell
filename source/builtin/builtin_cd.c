@@ -39,5 +39,6 @@ void	builtin_cd(char **cmd, t_data *data)
 			free(temp);
 			data->exit_status = 0;
 		}
+		free(old_cwd);
 	}
 }

@@ -36,3 +36,9 @@ void	print_error(char *cmd, char *input, bool err_status)
 		write (STDERR_FILENO, error_str, strlen(error_str));
 	write(STDERR_FILENO, "\n", 1);
 }
+
+void	err_sys(char *str, int fd)
+{
+	ft_putendl_fd(str, fd);
+	exit(errno);
+}

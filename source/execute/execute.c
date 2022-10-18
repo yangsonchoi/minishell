@@ -21,7 +21,6 @@ void	execute_line(t_token_list *token_list, t_data *data)
 			print_error("malloc failed", NULL, false);
 		printf("pipe count : %d\n", token_list->pipe_count);
 		token_to_command(token_list, cmd_list);
-		printf("here22\n");
 		int	i = 0;
 		int	j = 0;
 		while (cmd_list[i] != NULL)
@@ -43,8 +42,6 @@ void	execute_line(t_token_list *token_list, t_data *data)
 		// if (token_list->pipe_count > 0)
 		// 	execute_pipe(cmd_list, token_list->pipe_count);
 		// while (cmd_list != NULL)
-	cmd_list[0]->pipe_fd[0, 1]
-
 		execute_subshell(cmd_list[0], data);
 		free_cmd_list(cmd_list);
 	}
@@ -60,9 +57,14 @@ static bool	check_pipe(t_token_list *token_list)
 	{
 		if (((t_token *)temp->content)->type == PIPE)
 		{
-			check = (t_token *)(temp->next->content);
-			if (check != NULL && check->type == PIPE)
+			if (temp->next == NULL)
 				return (false);
+			else
+			{
+				check = (t_token *)(temp->next->content);
+				if (check != NULL && check->type == PIPE)
+					return (false);
+			}
 		}
 		temp = temp->next;
 	}
