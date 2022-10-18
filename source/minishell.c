@@ -47,7 +47,7 @@ static void	reader_loop(t_data *data)
 		input = readline("minishell$ ");
 		if (input == NULL || check_syntax(input) == false)
 		{
-			printf("syntax error"); // writwe 2
+			printf("%s, syntax error\n", input); // writwe 2
 			free(input);
 		}
 		else
@@ -57,7 +57,7 @@ static void	reader_loop(t_data *data)
 			free(input);
 			input = NULL;
 		}
-		// system("leaks minishell");
+		system("leaks minishell");
 	}
 	printf("reader_loop done"); // test
 }
@@ -79,6 +79,10 @@ static bool	check_syntax(char *input)
 				return (false);
 		}
 		else if (*input == '\\' || *input == ';')
+			return (false);
+		else if (*input == '$' && (is_whitespace(*(input + 1)) == true \
+				|| *(input + 1) == '$' || *(input + 1) == '|' || *(input + 1) == '<' \
+				|| *(input + 1) == '>' || *(input + 1) == '\0'))
 			return (false);
 		input++;
 	}

@@ -15,6 +15,9 @@
 #include "libft.h"
 #include "utils.h"
 #include <stdlib.h>
+#include <errno.h>
+
+static bool	is_numeric(char *cmd);
 
 void	builtin_exit(char **cmd, t_data *data)
 {
@@ -26,7 +29,45 @@ void	builtin_exit(char **cmd, t_data *data)
 		data->exit_status = 1;
 		return ;
 	}
+	if (is_numeric(cmd[1]) == false)
+	{
+		errno = 22;
+		print_error(cmd[0], cmd[1], true);
+		data->exit_status = 255;
+		exit(data->exit_status);
+	}
 	data->exit_status = ft_atoi(cmd[1]);
+	data->exit_status %= 256;
+	if (data->exit_status < 0)
+		data->exit_status += 256;
 	exit(data->exit_status);
 }
- 
+
+static bool	is_numeric(char *cmd)
+{
+	int						i;
+	int						sign;
+	unsigned long long		num;
+		
+	if (cmd[0] != '-' && cmd [0] != '+' && ft_isdigit(cmd[0]) == 0)
+		return (false);
+	i = 1;
+	while (cmd[i] != '\0')
+	{	
+		if (ft_isdigit(cmd[i++]) == 0)
+			return (false);
+	}
+	i = 0;
+	sign = 1;
+	if (cmd[i] == '-' || cmd[i] == '+')
+	{
+		if (cmd[i++] == '-')
+			sign *= -1;
+	}
+	num = 0;
+	while (cmd[i] >= '0' && cmd[i] <='9')
+		num = num * 10 + (cmd[i++] - '0');
+	if ((num > 9223372036854775807 && sign == 1) || (num > 9223372036854775808ULL && sign == -1))
+		return (false);
+	return (true);
+}

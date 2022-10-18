@@ -35,7 +35,7 @@ void	expand_parameter(t_token *token, t_data *data)
 			i++;
 		}
 		else if ((token->word)[i] == '\'' && d_quote == false)
-			i += ft_strchr(&(token->word)[i + 1], '\'') - &(token->word)[i];
+			i += ft_strchr(&(token->word)[i + 1], '\'') - &(token->word)[i] + 1;
 		else if ((token->word)[i] == '$')
 			i += expand_sign(token, i, data);
 		else
@@ -118,6 +118,7 @@ static char	*ft_getenv(char *target, t_data *data)
 
 	i = 0;
 	len = ft_strlen(target);
+	value = NULL;
 	while (data->envp[i] != NULL)
 	{
 		if (ft_strncmp(target, data->envp[i], len) == 0 && (data->envp[i][len] == '=' || data->envp[i][len == '\0']))
