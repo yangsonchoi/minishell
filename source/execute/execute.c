@@ -57,9 +57,7 @@ static bool	check_pipe(t_token_list *token_list)
 	{
 		if (((t_token *)temp->content)->type == PIPE)
 		{
-			if (temp->next == NULL)
-				return (false);
-			else
+			if (temp->next != NULL)
 			{
 				check = (t_token *)(temp->next->content);
 				if (check != NULL && check->type == PIPE)

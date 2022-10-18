@@ -13,13 +13,15 @@
 #include "builtin.h"
 #include "minishell.h"
 #include "utils.h"
+#include "libft.h"
 #include <stdlib.h>
 #include <unistd.h>
+
+static void	cd_envp(t_data *data, char *old_cwd);
 
 void	builtin_cd(char **cmd, t_data *data)
 {
 	char	*old_cwd;
-	char	*temp;
 
 	if (cmd [1] == NULL)
 		print_error(cmd[0], "usage: cd [dir]", false);
@@ -32,13 +34,22 @@ void	builtin_cd(char **cmd, t_data *data)
 			data->exit_status = 1;
 		}
 		else
-		{
-			temp = getcwd(NULL, 0);
-			change_envp(data, "OLDPWD", old_cwd);
-			change_envp(data, "PWD", temp);
-			free(temp);
-			data->exit_status = 0;
-		}
+			cd_envp(data, old_cwd);
 		free(old_cwd);
 	}
+}
+
+static void	cd_envp(t_data *data, char *old_cwd)
+{
+	char	*temp;
+	char	*new_pwd;
+
+	temp = ft_strjoin("OLDPWD=", old_cwd);
+	change_envp(data, temp);
+	free(temp);
+	temp = getcwd(NULL, 0);
+	new_pwd = ft_strjoin("PWD=", temp);
+	free(temp);
+	change_envp(data, new_pwd);
+	free(new_pwd);
 }

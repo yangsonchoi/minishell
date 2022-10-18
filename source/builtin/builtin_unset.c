@@ -18,14 +18,20 @@
 
 void	builtin_unset(char **cmd, t_data *data)
 {
+	int	i;
+	
 	data->exit_status = 0;
-	if (ft_strchr(cmd[1], '=') != NULL)
+	i = 1;
+	while (cmd[i] != NULL)
 	{
-		data->exit_status = 1;
-		errno = 22;
-		print_error(cmd[0], cmd[1], true);
-		return ;
+		if (ft_strchr(cmd[1], '=') != NULL || (cmd[i][0] >= '0' && cmd[i][0] <= '9'))
+		{
+			data->exit_status = 1;
+			errno = 22;
+			print_error(cmd[0], cmd[i], true);
+		}
+		else 
+			remove_envp(data, cmd[i]);
+		i++;
 	}
-	if (getenv(cmd[1]) != NULL)
-		remove_envp(data, cmd[1]);
 }

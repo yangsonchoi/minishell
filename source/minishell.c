@@ -38,8 +38,6 @@ static void	initialize(t_data *data, char **environ)
 	data->exit_status = 0;
 }
 
-
-
 static void	reader_loop(t_data *data)
 {
 	char	*input;
@@ -59,6 +57,7 @@ static void	reader_loop(t_data *data)
 			free(input);
 			input = NULL;
 		}
+		// system("leaks minishell");
 	}
 	printf("reader_loop done"); // test
 }
@@ -107,5 +106,6 @@ static void	copy_envp(t_data *data, char **old_envp)
 		i++;
 	}
 	new_envp[i] = NULL;
-	data->envp = new_envp;
+	old_envp = new_envp;
+	data->envp = old_envp;
 }

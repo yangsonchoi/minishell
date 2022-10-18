@@ -8,12 +8,12 @@
 ** error.c
 */
 void	print_error(char *cmd, char *input, bool err_status);
-
+void	err_sys(char *str);
 /*
 ** envp_add_change.c
 */
-void	add_envp(t_data *data, char * variable, char *value);
-void	change_envp(t_data *data, char* variable, char *value);
+void	add_envp(t_data *data, char *new_cmd);
+void	change_envp(t_data *data, char *new_cmd);
 
 /*
 ** envp_remove_print.c

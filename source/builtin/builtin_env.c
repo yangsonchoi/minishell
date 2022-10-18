@@ -13,10 +13,14 @@
 #include "builtin.h"
 #include "minishell.h"
 #include "utils.h"
+#include "libft.h"
+#include <stdio.h>
 #include <unistd.h>
 
 void	builtin_env(char **cmd, t_data *data)
 {
+	int	i;
+
 	if (cmd[1] != NULL)
 	{
 		print_error(cmd[0], "usage: pwd with no options or arguments", NULL);
@@ -24,7 +28,13 @@ void	builtin_env(char **cmd, t_data *data)
 	}
 	else
 	{
-		print_envp(data, NULL);
-		data->exit_status = 0;
+		i = 0;
+		while (data->envp[i] != NULL)
+		{
+			if (ft_strchr(data->envp[i], '=') != NULL)
+				printf("%s\n", data->envp[i]);
+			data->exit_status = 0;
+			i++;
+		}
 	}
 }

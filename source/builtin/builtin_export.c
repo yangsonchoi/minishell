@@ -18,7 +18,9 @@
 #include <errno.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <stdio.h>
 
+static void	print_export(t_data *data);
 static void	add_or_change_envp(char *new_cmd, t_data *data);
 
 void	builtin_export(char **cmd, t_data *data)
@@ -26,8 +28,9 @@ void	builtin_export(char **cmd, t_data *data)
 	int		i;
 	char	*equal;
 
+	data->exit_status = 0;
 	if (cmd[1] == NULL)
-		print_envp(data, "declare -x");
+		print_export(data);
 	else
 	{
 		i = 1;
@@ -35,7 +38,7 @@ void	builtin_export(char **cmd, t_data *data)
 		while (cmd[i] != NULL)
 		{
 			equal = ft_strchr(cmd[i], '=');
-			if (equal == cmd[i])
+			if (equal == cmd[i] || (cmd[i][0] >= '0' && cmd[i][0] <= '9'))
 			{
 				errno = 22;
 				print_error(cmd[0], cmd[i], true);
@@ -43,36 +46,53 @@ void	builtin_export(char **cmd, t_data *data)
 			}
 			else
 				add_or_change_envp(cmd[i], data);
+			i++;
 		}
-		i++;
 	}
 }
 
 static void	add_or_change_envp(char *new_cmd, t_data *data)
 {
-	char	*variable;
-	char	*value;
+	char	*equal;
 	int		i;
 
 	i = 0;
-	value = ft_strchr(new_cmd, '=');
-	if (value == NULL)
-		variable = new_cmd;
-	else
+	equal = ft_strchr(new_cmd, '=');
+	if (equal != NULL)
 	{
-		variable = ft_substr(new_cmd, 0, value - new_cmd - 1);
-		value = value + 1;
+		while (data->envp[i] != NULL)
+		{	
+			if (ft_strncmp(new_cmd, data->envp[i], equal - new_cmd) == 0)
+			{
+				change_envp(data, new_cmd);
+				return ;
+			}
+			i++;
+		}
 	}
+	add_envp(data, new_cmd);
+}
+
+static void	print_export(t_data *data)
+{
+	char	*value;
+	char	*variable;
+	int		i;
+
+	i = 0;
 	while (data->envp[i] != NULL)
-	{	
-		if (ft_strncmp(variable, data->envp[i], ft_strlen(variable)) == 0)
+	{
+		value = ft_strchr(data->envp[i], '=');
+		printf("declare -x ");
+		if (value == NULL)
+			printf("%s\n", data->envp[i]);
+		else
 		{
-			change_envp(data, variable, value);
+			variable = ft_substr(data->envp[i], 0, value - data->envp[i] + 1);
+			printf("%s\"%s\"\n", variable, value + 1);
 			free(variable);
-			return ;
 		}
 		i++;
 	}
-	add_envp(data, variable, value);
-	free(variable);
+
 }

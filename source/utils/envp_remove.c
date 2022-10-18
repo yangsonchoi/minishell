@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   envp_remove_print.c                                :+:      :+:    :+:   */
+/*   envp_remove.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yachoi <yachoi@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -21,6 +21,7 @@ static char	*get_target_address(char **envp, char *target);
 void	remove_envp(t_data *data, char *target)
 {
 	int		i;
+	int		j;
 	char	**new_envp;
 	char	*remove_envp;
 
@@ -32,12 +33,13 @@ void	remove_envp(t_data *data, char *target)
 		i++;
 	new_envp = malloc(sizeof(char *) * i);
 	i = 0;
-	while (data->envp[i] == NULL)
+	j = 0;
+	while (data->envp[i] != NULL)
 	{
-		if (data->envp[i] != remove_envp)
-			new_envp[i] = data->envp[i];
-		i++;
+		if (data->envp[i++] != remove_envp)
+			new_envp[j++] = data->envp[i - 1];
 	}
+	new_envp[j] = NULL;
 	free(remove_envp);
 	free(data->envp);
 	data->envp = new_envp;
@@ -54,7 +56,7 @@ static char	*get_target_address(char **envp, char *target)
 	temp = NULL;
 	while (envp[i] != NULL)
 	{
-		if (ft_strncmp(target, envp[i], len) && envp[i][len] == '=')
+		if (ft_strncmp(target, envp[i], len) == 0 && (envp[i][len] == '=' || envp[i][len] == '\0'))
 		{
 			temp = envp[i];
 			break ;
@@ -64,26 +66,3 @@ static char	*get_target_address(char **envp, char *target)
 	return (temp);
 }
 
-void	print_envp(t_data *data, char *str)
-{
-	int	i;
-
-	i = 0;
-	if (str != NULL)
-	{
-		while (data->envp[i] != NULL)
-		{
-			printf("%s", str);
-			printf("%s\n", data->envp[i]);
-			i++;
-		}
-	}
-	else
-	{
-		while (data->envp[i] != NULL)
-		{
-			printf("%s\n", data->envp[i]);
-			i++;
-		}
-	}
-}

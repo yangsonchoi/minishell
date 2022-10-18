@@ -16,7 +16,9 @@
 #include "libft.h"
 
 static int	expand_sign(t_token *token, int i, t_data *data);
-static int	convert_variable(char **parameter, char *input);
+static int	convert_variable(char **parameter, char *input, t_data *data);
+static char	*ft_getenv(char *target, t_data *data);
+
 
 void	expand_parameter(t_token *token, t_data *data)
 {
@@ -59,18 +61,17 @@ static int	expand_sign(t_token *token, int i, t_data *data)
 		len++;
 	}
 	else
-		len += convert_variable(&parameter, &input[i + 1]);
+		len += convert_variable(&parameter, &input[i + 1], data);
 	back_str = ft_substr(input, i + 1 + len, ft_strlen(&input[i + 1 + len]));
 	len = ft_strlen(parameter);
 	join_string(token, front_str, parameter, back_str);
 	return (len);
 }
 
-static int	convert_variable(char **parameter, char *input)
+static int	convert_variable(char **parameter, char *input, t_data *data)
 {
 	int		len;
 	char	*target;
-	char	*temp;
 
 	len = 0;
 	while (input[len] != 0)
@@ -81,10 +82,9 @@ static int	convert_variable(char **parameter, char *input)
 		len++;
 	}
 	target = ft_substr(input, 0, len);
-	temp = getenv(target);
-	if (temp == NULL)
-		temp = "";
-	*parameter = ft_strdup(temp);
+	*parameter = ft_getenv(target, data);
+	if (*parameter == NULL)
+		*parameter = ft_strdup("");
 	free(target);
 	return (len);
 }
@@ -107,4 +107,28 @@ void	join_string(t_token *token, char *front, char *mid, char *back)
 	free(token->word);
 	token->word = NULL;
 	token->word = result;
+}
+
+static char	*ft_getenv(char *target, t_data *data)
+{
+	int		i;
+	int		len;
+	char	*value;
+	char	*equal;
+
+	i = 0;
+	len = ft_strlen(target);
+	while (data->envp[i] != NULL)
+	{
+		if (ft_strncmp(target, data->envp[i], len) == 0 && (data->envp[i][len] == '=' || data->envp[i][len == '\0']))
+		{
+			equal = ft_strchr(data->envp[i], '=');
+			if (equal == NULL)
+				return (NULL);
+			else
+				value = ft_substr(data->envp[i], equal - data->envp[i] + 1, ft_strlen(&equal[1]));
+		}
+		i++;
+	}
+	return (value);
 }
