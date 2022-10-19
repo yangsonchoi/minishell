@@ -22,7 +22,7 @@ void	execute_subshell(t_cmd *cmd_list, t_data *data)
 
 
 	// if (cmd_list->redirect != NULL)
-	//	(perform_redirection(*cmd_list), data);
+	//	perform_redirection(cmd_list->redirect);
 	if (cmd_list->cmd[0] != NULL)
 	{
 		if (check_builtin(cmd_list->cmd[0], &builtin_type) == true)

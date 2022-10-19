@@ -47,21 +47,20 @@ static void	reader_loop(t_data *data)
 	{
 		input = readline("minishell$ ");
 		add_history(input);
-		if (input == NULL || check_syntax(input) == false)
-		{
-			printf("%s, syntax error\n", input); // writwe 2
-			free(input);
-		}
+		if (input == NULL)
+        {
+            printf("\033[1A");
+            printf("\033[10C");
+            printf(" exit\n");
+            exit(130);
+        }
+		else if (check_syntax(input) == false)
+			print_error("syntax error", NULL, false);
 		else
-		{
-			parse_input(input, data); // parser
-			// add_history(input); // do we use history?
-			free(input);
-			input = NULL;
-		}
+			parse_input(input, data);
+		free(input);
 		system("leaks minishell");
 	}
-	printf("reader_loop done"); // test
 }
 
 static bool	check_syntax(char *input)
