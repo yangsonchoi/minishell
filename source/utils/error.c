@@ -6,7 +6,7 @@
 /*   By: yachoi <yachoi@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 14:35:08 by yachoi            #+#    #+#             */
-/*   Updated: 2022/10/16 14:35:39 by yachoi           ###   ########.fr       */
+/*   Updated: 2022/10/19 18:44:51 by yachoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,11 @@ void	print_error(char *cmd, char *input, bool err_status)
 	write(STDERR_FILENO, "\n", 1);
 }
 
-void	err_sys(char *str)
+void	err_sys(char *front, char *back)
 {
-	ft_putendl_fd(str, 2);
+	ft_putstr_fd("minishell: ", 2);
+	if (front != NULL)
+		ft_putstr_fd(front, 2);
+	ft_putendl_fd(back, 2);
 	exit(errno);
 }

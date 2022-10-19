@@ -56,7 +56,8 @@ static char	*get_target_address(char **envp, char *target)
 	temp = NULL;
 	while (envp[i] != NULL)
 	{
-		if (ft_strncmp(target, envp[i], len) == 0 && (envp[i][len] == '=' || envp[i][len] == '\0'))
+		if (ft_strncmp(target, envp[i], len) == 0 \
+			&& (envp[i][len] == '=' || envp[i][len] == '\0'))
 		{
 			temp = envp[i];
 			break ;
@@ -65,4 +66,3 @@ static char	*get_target_address(char **envp, char *target)
 	}
 	return (temp);
 }
-

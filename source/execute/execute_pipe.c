@@ -53,20 +53,20 @@ static void	build_pl(int cnt, pid_t **pids, int **pipes)
 
 	*pipes = malloc((cnt - 1) * 2 * sizeof(**pipes));
 	if (*pipes == NULL)
-		err_sys("malloc error");
+		err_sys("malloc error", NULL);
 	i = 0;
 	while (i < cnt - 1)
 		if (pipe(*pipes + ((i++) * 2)) < 0)
-			err_sys("pipe error");
+			err_sys("pipe error", NULL);
 	*pids = malloc(cnt * sizeof(**pids));
 	if (*pids == NULL)
-		err_sys("malloc error");
+		err_sys("malloc error", NULL);
 	i = 0;
 	while (i < cnt)
 	{
 		(*pids)[i] = fork();
 		if ((*pids)[i] < 0)
-			err_sys("fork error");
+			err_sys("fork error", NULL);
 		if ((*pids)[i] == 0)
 		{
 			set_pipe(i, cnt, *pipes);
@@ -81,7 +81,7 @@ static void	redirect_fd(int fd, int fd2)
 	if (fd != fd2)
 	{
 		if (dup2(fd, fd2) != fd2)
-			err_sys("dup2 error");
+			err_sys("dup2 error", NULL);
 		close(fd);
 	}
 }
@@ -114,12 +114,12 @@ static int	wait_and_get_exit_status(pid_t *pids, int cnt)
 		if (i == cnt - 1)
 		{
 			if (waitpid(pids[i], &status, 0) < 0)
-				err_sys("waitpid error");
+				err_sys("waitpid error", NULL);
 		}
 		else
 		{
 			if (waitpid(pids[i], NULL, 0) < 0)
-				err_sys("waitpid_error");
+				err_sys("waitpid_error", NULL);
 		}
 		i++;
 	}

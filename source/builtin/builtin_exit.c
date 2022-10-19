@@ -48,26 +48,23 @@ static bool	is_numeric(char *cmd)
 	int						i;
 	int						sign;
 	unsigned long long		num;
-		
+
 	if (cmd[0] != '-' && cmd [0] != '+' && ft_isdigit(cmd[0]) == 0)
 		return (false);
 	i = 1;
 	while (cmd[i] != '\0')
-	{	
 		if (ft_isdigit(cmd[i++]) == 0)
 			return (false);
-	}
 	i = 0;
 	sign = 1;
 	if (cmd[i] == '-' || cmd[i] == '+')
-	{
 		if (cmd[i++] == '-')
 			sign *= -1;
-	}
 	num = 0;
-	while (cmd[i] >= '0' && cmd[i] <='9')
+	while (cmd[i] >= '0' && cmd[i] <= '9')
 		num = num * 10 + (cmd[i++] - '0');
-	if ((num > 9223372036854775807 && sign == 1) || (num > 9223372036854775808ULL && sign == -1))
+	if ((num > 9223372036854775807 && sign == 1) \
+		|| (num > 9223372036854775808ULL && sign == -1))
 		return (false);
 	return (true);
 }

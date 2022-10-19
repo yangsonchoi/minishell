@@ -27,4 +27,3 @@ static void	free_token(void *content)
 	free(((t_token *)content)->word);
 	free((t_token *)content);
 }
-

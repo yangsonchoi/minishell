@@ -1,28 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute_command.c                                  :+:      :+:    :+:   */
+/*   execute_subshell.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yachoi <yachoi@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 16:40:53 by yachoi            #+#    #+#             */
-/*   Updated: 2022/10/16 16:40:55 by yachoi           ###   ########.fr       */
+/*   Updated: 2022/10/19 21:21:32 by yachoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
 #include "minishell.h"
 #include "builtin.h"
-#include "stdio.h"// for test
+#include "utils.h"
+#include <fcntl.h>
+
 static bool	check_builtin(char *cmd, enum e_builtin_type *type);
+static void	default_redirection(t_data *data);
 
 void	execute_subshell(t_cmd *cmd_list, t_data *data)
 {
 	enum e_builtin_type	builtin_type;
 
-
-	// if (cmd_list->redirect != NULL)
-	//	perform_redirection(cmd_list->redirect);
+	if (cmd_list->redirect != NULL)
+		perform_redirection(cmd_list->redirect);
 	if (cmd_list->cmd[0] != NULL)
 	{
 		if (check_builtin(cmd_list->cmd[0], &builtin_type) == true)
@@ -32,11 +34,11 @@ void	execute_subshell(t_cmd *cmd_list, t_data *data)
 	}
 	if (data->is_interactive == false)
 		exit(g_exit_status);
-	//	 (default_redierction());
-	// else 
+	else if (cmd_list->redirect != NULL)
+		default_redirection(data);
 }
 
-static bool check_builtin(char *cmd, enum e_builtin_type *type)
+static bool	check_builtin(char *cmd, enum e_builtin_type *type)
 {
 	bool	result;
 
@@ -58,4 +60,23 @@ static bool check_builtin(char *cmd, enum e_builtin_type *type)
 	else
 		result = false;
 	return (result);
+}
+
+static void	default_redirection(t_data *data)
+{
+	if (data->std_fd[0] != STDIN_FILENO)
+	{
+		if (dup2(data->std_fd[0], STDIN_FILENO) != STDIN_FILENO)
+			print_error("dup2 error", NULL, true);
+	}
+	if (data->std_fd[1] != STDOUT_FILENO)
+	{
+		if (dup2(data->std_fd[1], STDOUT_FILENO) != STDOUT_FILENO)
+			print_error("dup2 error", NULL, true);
+	}
+	if (data->std_fd[2] != STDERR_FILENO)
+	{
+		if (dup2(data->std_fd[2], STDERR_FILENO) != STDERR_FILENO)
+			print_error("dup2 error", NULL, true);
+	}
 }

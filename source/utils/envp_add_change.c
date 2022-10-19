@@ -27,7 +27,7 @@ void	add_envp(t_data *data, char *new_cmd)
 	new_envp = malloc(sizeof(char *) * (i + 2));
 	if (new_envp == NULL)
 	{
-		err_sys("export: malloc failed");
+		err_sys("export: malloc failed", NULL);
 		return ;
 	}
 	i = 0;
@@ -50,7 +50,7 @@ void	change_envp(t_data *data, char *new_cmd)
 	i = 0;
 	equal = ft_strchr(new_cmd, '=');
 	if (equal == NULL)
-		return;
+		return ;
 	while (data->envp[i] != NULL)
 	{
 		if (ft_strncmp(new_cmd, data->envp[i], equal - new_cmd) == 0)

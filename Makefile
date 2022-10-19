@@ -40,6 +40,7 @@ SRCS_LIST	= minishell.c					\
 			  $(E_DIR)execute_subshell.c	\
 			  $(E_DIR)execute_pipe.c		\
 			  $(E_DIR)execute_cmd.c			\
+			  $(E_DIR)execute_redirect.c	\
 			  $(B_DIR)builtin.c				\
 			  $(B_DIR)builtin_echo.c		\
 			  $(B_DIR)builtin_cd.c			\
@@ -51,7 +52,8 @@ SRCS_LIST	= minishell.c					\
 			  $(U_DIR)error.c				\
 			  $(U_DIR)signals.c				\
 			  $(U_DIR)envp_add_change.c 	\
-			  $(U_DIR)envp_remove.c
+			  $(U_DIR)envp_remove.c			\
+			  $(U_DIR)get_next_line.c
 
 
 SRCS		= $(addprefix $(SRCS_DIR), $(SRCS_LIST))

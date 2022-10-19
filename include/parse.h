@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yachoi <yachoi@student.42seoul.kr>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/19 21:27:12 by yachoi            #+#    #+#             */
+/*   Updated: 2022/10/19 21:27:14 by yachoi           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PARSE_H
 # define PARSE_H
 
@@ -15,14 +27,14 @@ enum e_type
 	APPEND,
 };
 
-typedef struct			s_token
+typedef struct s_token
 {
 	char				*word;
 	enum e_type			type;
 	bool				expand;
-} 						t_token;
+}						t_token;
 
-typedef struct			s_token_list
+typedef struct s_token_list
 {
 	int		token_count;
 	int		pipe_count;

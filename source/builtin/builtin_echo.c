@@ -18,7 +18,7 @@
 void	builtin_echo(char **cmd)
 {
 	int	i;
-	
+
 	g_exit_status = 0;
 	if (cmd[1] == NULL)
 	{	

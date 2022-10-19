@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yachoi <yachoi@student.42seoul.kr>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/19 21:24:16 by yachoi            #+#    #+#             */
+/*   Updated: 2022/10/19 21:24:17 by yachoi           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef BUILTIN_H
 # define BUILTIN_H
 
@@ -53,6 +65,5 @@ void	builtin_env(char **cmd, t_data *data);
 ** builtin_exit.c
 */
 void	builtin_exit(char **cmd);
-
 
 #endif

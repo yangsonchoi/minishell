@@ -1,12 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execute.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yachoi <yachoi@student.42seoul.kr>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/19 19:00:31 by yachoi            #+#    #+#             */
+/*   Updated: 2022/10/19 19:00:33 by yachoi           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "execute.h"
 #include "parse.h"
 #include "utils.h"
 #include <stdlib.h>
 
-#include <stdio.h> // test
-
 static bool	check_pipe(t_token_list *token_list);
 static bool	check_redirection(t_cmd **cmd_list);
+static void	exe_pipe_or_shell(t_cmd **cmd_list, int pipe_count, t_data *data);
 static void	free_cmd_list(t_cmd **list);
 
 void	execute_line(t_token_list *token_list, t_data *data)
@@ -25,43 +36,25 @@ void	execute_line(t_token_list *token_list, t_data *data)
 			cmd_list = malloc(sizeof(t_cmd *) * (token_list->pipe_count + 2));
 			if (cmd_list == NULL)
 				print_error("malloc failed", NULL, false);
-			printf("pipe count : %d\n", token_list->pipe_count);
 			token_to_command(token_list, cmd_list);
-			int	i = 0;
-			int	j = 0;
-			while (cmd_list[i] != NULL)
-			{
-				j = 0;
-				while (cmd_list[i]->cmd[j] != NULL)
-				{
-					printf("subshell : %d, cmd : %d, word : %s\n", i, j, cmd_list[i]->cmd[j]);
-					j++;
-				}
-				j = 0;
-				while (cmd_list[i]->redirect[j] != NULL)
-				{
-					printf("subshell : %d, type : %d, word : %s\n", i, cmd_list[i]->redirect[j]->type, cmd_list[i]->redirect[j]->word);
-					j++;
-				}
-				i++;
-			}
-
 			if (check_redirection(cmd_list) == true)
-			{
-				if (token_list->pipe_count > 0)
-					execute_pipe(token_list->pipe_count + 1, cmd_list, data);
-				else// while (cmd_list != NULL)
-					execute_subshell(cmd_list[0], data);
-			}
+				exe_pipe_or_shell(cmd_list, token_list->pipe_count, data);
 			else
 			{	
 				print_error("syntax error", "redirection", false);
 				g_exit_status = 2;
 			}
 			free_cmd_list(cmd_list);
-			free(cmd_list);
 		}
 	}
+}
+
+static void	exe_pipe_or_shell(t_cmd **cmd_list, int pipe_count, t_data *data)
+{
+	if (pipe_count > 0)
+		execute_pipe(pipe_count + 1, cmd_list, data);
+	else
+		execute_subshell(cmd_list[0], data);
 }
 
 static bool	check_pipe(t_token_list *token_list)
@@ -93,25 +86,24 @@ static bool	check_pipe(t_token_list *token_list)
 static bool	check_redirection(t_cmd **cmd_list)
 {
 	int	i;
-	int j;
+	int	j;
 
 	i = 0;
 	while (cmd_list[i] != NULL)
 	{
-		j = 0;
-		while (cmd_list[i]->redirect[j])
+		j = -1;
+		while (cmd_list[i]->redirect[++j])
 		{
 			if (j % 2 == 0)
 			{
 				if (cmd_list[i]->redirect[j]->type == WORD)
 					return (false);
 			}
-			if (j % 2 == 1)
+			else if (j % 2 == 1)
 			{
 				if (cmd_list[i]->redirect[j]->type != WORD)
 					return (false);
 			}
-			j++;
 		}
 		if (j % 2 != 0)
 			return (false);
@@ -139,4 +131,5 @@ static void	free_cmd_list(t_cmd **list)
 		free(list[i]);
 		i++;
 	}
+	free(list);
 }

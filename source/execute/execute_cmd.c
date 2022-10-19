@@ -30,11 +30,11 @@ void	execute_cmd(char **cmd, t_data *data)
 
 	pid = fork();
 	if (pid < 0)
-		err_sys("fork error");
+		err_sys("fork error", NULL);
 	else if (pid == 0)
 		execute_extern_cmd(cmd, data->envp);
 	if (waitpid(pid, &status, 0) < 0)
-		err_sys("waitpid error");
+		err_sys("waitpid error", NULL);
 	if (WIFEXITED(status))
 		g_exit_status = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))
@@ -50,9 +50,9 @@ static void	execute_cmd_with_slash(char **argv, char **envp)
 	cmd = argv[0];
 	argv[0] = ft_strdup(ft_strrchr(cmd, '/') + 1);
 	if (argv[0] == NULL)
-		err_sys("strdup error");
+		err_sys("strdup error", NULL);
 	if (execve(cmd, argv, envp) < 0)
-		err_sys("execve error");
+		err_sys("execve error", NULL);
 }
 
 static void	execute_extern_cmd(char **cmd, char **envp)
@@ -75,12 +75,12 @@ static void	execute_extern_cmd(char **cmd, char **envp)
 			path = NULL;
 	}
 	if (path == NULL && execve(cmd[0], cmd, envp))
-		err_sys("execve error");
+		err_sys(cmd[0], ": execve error");
 	full_cmd = get_cmd(cmd[0], path);
 	if (full_cmd == NULL)
-		err_sys("Command not found");
+		err_sys(cmd[0], ": command not found");
 	if (execve(full_cmd, cmd, envp) < 0)
-		err_sys("execve error");
+		err_sys(cmd[0], ": execve error");
 }
 
 static char	*get_cmd(const char *name, const char *path)
@@ -118,7 +118,7 @@ static char	*get_cmd_with_prefix(const char *name, const char *path, size_t lp)
 	name_len = ft_strlen(name);
 	cmd = malloc((name_len + lp + 2) * sizeof(*cmd));
 	if (cmd == NULL)
-		err_sys("malloc error");
+		err_sys("malloc error", NULL);
 	ft_memcpy(cmd, path, lp);
 	cmd[lp] = '/';
 	ft_memcpy(cmd + lp + 1, name, name_len);

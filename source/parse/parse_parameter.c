@@ -6,19 +6,18 @@
 /*   By: yachoi <yachoi@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 15:06:56 by yachoi            #+#    #+#             */
-/*   Updated: 2022/10/16 15:06:58 by yachoi           ###   ########.fr       */
+/*   Updated: 2022/10/19 18:47:57 by yachoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parse.h"
 #include "minishell.h"
-#include <stdlib.h>
 #include "libft.h"
+#include <stdlib.h>
 
 static int	expand_sign(t_token *token, int i, t_data *data);
 static int	convert_variable(char **parameter, char *input, t_data *data);
 static char	*ft_getenv(char *target, t_data *data);
-
 
 void	expand_parameter(t_token *token, t_data *data)
 {
@@ -121,13 +120,15 @@ static char	*ft_getenv(char *target, t_data *data)
 	value = NULL;
 	while (data->envp[i] != NULL)
 	{
-		if (ft_strncmp(target, data->envp[i], len) == 0 && (data->envp[i][len] == '=' || data->envp[i][len == '\0']))
+		if (ft_strncmp(target, data->envp[i], len) == 0 \
+			&& (data->envp[i][len] == '=' || data->envp[i][len == '\0']))
 		{
 			equal = ft_strchr(data->envp[i], '=');
 			if (equal == NULL)
 				return (NULL);
 			else
-				value = ft_substr(data->envp[i], equal - data->envp[i] + 1, ft_strlen(&equal[1]));
+				value = ft_substr(data->envp[i], equal - data->envp[i] + 1, \
+									ft_strlen(&equal[1]));
 		}
 		i++;
 	}
