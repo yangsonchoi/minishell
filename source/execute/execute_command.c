@@ -28,12 +28,12 @@ void	execute_subshell(t_cmd *cmd_list, t_data *data)
 		if (check_builtin(cmd_list->cmd[0], &builtin_type) == true)
 			execute_builtin(cmd_list->cmd, data, builtin_type);
 		// else
-		//	execute_program(); // 
+		// 	execute_cmd(cmd_list->cmd, data);
 	}
-	// if(data->is_interactive == true)
+	if (data->is_interactive == false)
+		exit(data->exit_status);
 	//	 (default_redierction());
 	// else 
-	//  exit(data->exit_status);
 }
 
 static bool check_builtin(char *cmd, enum e_builtin_type *type)

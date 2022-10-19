@@ -48,10 +48,10 @@ void	execute_line(t_token_list *token_list, t_data *data)
 
 			if (check_redirection(cmd_list) == true)
 			{
-				// if (token_list->pipe_count > 0)
-				// 	execute_pipe(cmd_list, token_list->pipe_count);
-				// while (cmd_list != NULL)
-				execute_subshell(cmd_list[0], data);
+				if (token_list->pipe_count > 0)
+					execute_pipe(token_list->pipe_count + 1, cmd_list, data);
+				else// while (cmd_list != NULL)
+					execute_subshell(cmd_list[0], data);
 			}
 			else
 			{	
