@@ -2,14 +2,19 @@ NAME		= minishell
 
 CC			= cc -g
 CFLAGS		= -Wall -Werror -Wextra
-LDFLAGS		= -lreadline -lft -L$(LIBFT_DIR)
-INCLUDES	= -I$(HDRS_DIR) -I$(LIBFT_DIR)
+LDFLAGS		= -lreadline -lhistory -lft -L$(LIBFT_DIR) -L$(READ_DIR)
+INCLUDES	= -I$(HDRS_DIR) -I$(LIBFT_DIR) -I$(READ_HDRS)
 
 RM 			= rm
 RMFLAGS		= -rf
 
 LIBFT		= $(LIBFT_DIR)libft.a
 LIBFT_DIR	= ./libft/
+
+READ		= $(READ_DIR)libreadline.a		\
+			  $(READ_DIR)libhistory.a
+READ_DIR	= ./readline/lib/
+READ_HDRS	= ./readline/include/
 
 HDRS_LIST	= minishell.h	\
 			  parse.h		\
@@ -23,29 +28,29 @@ P_DIR		= parse/
 E_DIR		= execute/
 B_DIR		= builtin/
 U_DIR		= utils/
-SRCS_LIST	= minishell.c				\
-			  $(P_DIR)parse.c			\
-			  $(P_DIR)parse_token.c		\
-			  $(P_DIR)parse_free.c		\
-			  $(P_DIR)parse_expand.c	\
-			  $(P_DIR)parse_parameter.c	\
-			  $(P_DIR)parse_quote.c		\
-			  $(E_DIR)execute.c			\
-			  $(E_DIR)execute_token.c	\
-			  $(E_DIR)execute_subsh.c	\
-			  $(E_DIR)execute_cmd.c		\
-			  $(E_DIR)execute_pipe.c	\
-			  $(B_DIR)builtin.c			\
-			  $(B_DIR)builtin_echo.c	\
-			  $(B_DIR)builtin_cd.c		\
-			  $(B_DIR)builtin_pwd.c		\
-			  $(B_DIR)builtin_export.c	\
-			  $(B_DIR)builtin_unset.c	\
-			  $(B_DIR)builtin_env.c		\
-			  $(B_DIR)builtin_exit.c	\
-			  $(U_DIR)error.c			\
-			  $(U_DIR)signals.c			\
-			  $(U_DIR)envp_add_change.c \
+SRCS_LIST	= minishell.c					\
+			  $(P_DIR)parse.c				\
+			  $(P_DIR)parse_token.c			\
+			  $(P_DIR)parse_free.c			\
+			  $(P_DIR)parse_expand.c		\
+			  $(P_DIR)parse_parameter.c		\
+			  $(P_DIR)parse_quote.c			\
+			  $(E_DIR)execute.c				\
+			  $(E_DIR)execute_token.c		\
+			  $(E_DIR)execute_subshell.c	\
+			  $(E_DIR)execute_pipe.c		\
+			  $(E_DIR)execute_cmd.c			\
+			  $(B_DIR)builtin.c				\
+			  $(B_DIR)builtin_echo.c		\
+			  $(B_DIR)builtin_cd.c			\
+			  $(B_DIR)builtin_pwd.c			\
+			  $(B_DIR)builtin_export.c		\
+			  $(B_DIR)builtin_unset.c		\
+			  $(B_DIR)builtin_env.c			\
+			  $(B_DIR)builtin_exit.c		\
+			  $(U_DIR)error.c				\
+			  $(U_DIR)signals.c				\
+			  $(U_DIR)envp_add_change.c 	\
 			  $(U_DIR)envp_remove.c
 
 
@@ -57,7 +62,7 @@ OBJS	= $(addprefix $(OBJS_DIR), $(OBJS_LIST))
 
 all : $(NAME)
 
-$(NAME) : $(LIBFT) $(OBJS_DIR) $(OBJS)
+$(NAME) : $(LIBFT) $(READ) $(OBJS_DIR) $(OBJS)
 	$(CC) $(CFLAGS) $(LDFLAGS) $(INCLUDES) $(OBJS) -o $(NAME)
 
 $(OBJS_DIR) :

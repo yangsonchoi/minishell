@@ -22,7 +22,7 @@ void	execute_builtin(char **cmd, t_data *data, enum e_builtin_type type);
 /*
 ** builtin_echo.c
 */
-void	builtin_echo(char **cmd, t_data *data);
+void	builtin_echo(char **cmd);
 
 /*
 ** builtin_cd.c
@@ -32,7 +32,7 @@ void	builtin_cd(char **cmd, t_data *data);
 /*
 ** builtin_pwd.c
 */
-void	builtin_pwd(char **cmd, t_data *data);
+void	builtin_pwd(char **cmd);
 
 /*
 ** builtin_export.c
@@ -52,7 +52,7 @@ void	builtin_env(char **cmd, t_data *data);
 /*
 ** builtin_exit.c
 */
-void	builtin_exit(char **cmd, t_data *data);
+void	builtin_exit(char **cmd);
 
 
 #endif

@@ -8,7 +8,6 @@
 #include <readline/history.h>
 #include <stdlib.h>
 
-
 static void	initialize(t_data *data, char **environ);
 static void	reader_loop(t_data *data);
 static bool	check_syntax(char *input);
@@ -26,7 +25,7 @@ int	main(int argc, char **argv, char **environ)
 	{
 		printf("%s\n", data.envp[i++]);
 	}
-	// set_signal(); // setting signal ctrl+D, ctrl+C, ctrl+/
+	set_signal(); // setting signal ctrl+D, ctrl+C, ctrl+/
 
 	reader_loop(&data); // 
 	// exit_shell(); // free all and exit
@@ -37,7 +36,7 @@ static void	initialize(t_data *data, char **environ)
 {
 	copy_envp(data, environ);
 	data->is_interactive = true;
-	data->exit_status = 0;
+	g_exit_status = 0;
 }
 
 static void	reader_loop(t_data *data)

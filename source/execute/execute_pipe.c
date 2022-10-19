@@ -43,7 +43,7 @@ void	execute_pipe(int child_cnt, t_cmd **cmd_list, t_data *data)
 	while (fd_i < (child_cnt - 1) * 2)
 		close(pipe_fds[fd_i++]);
 	free(pipe_fds);
-	data->exit_status = wait_and_get_exit_status(child_pids[child_cnt - 1]);
+	g_exit_status = wait_and_get_exit_status(child_pids[child_cnt - 1]);
 	free(child_pids);
 }
 

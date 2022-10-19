@@ -16,11 +16,11 @@
 void	execute_builtin(char **cmd, t_data *data, enum e_builtin_type type)
 {
 	if (type == ECHO)
-		builtin_echo(cmd, data);
+		builtin_echo(cmd);
 	else if (type == CD)
 		builtin_cd(cmd, data);
 	else if (type == PWD)
-		builtin_pwd(cmd, data);
+		builtin_pwd(cmd);
 	else if (type == EXPORT)
 		builtin_export(cmd, data);
 	else if (type == UNSET)
@@ -28,5 +28,5 @@ void	execute_builtin(char **cmd, t_data *data, enum e_builtin_type type)
 	else if (type == ENV)
 		builtin_env(cmd, data);
 	else if (type == EXIT)
-		builtin_exit(cmd, data);
+		builtin_exit(cmd);
 }

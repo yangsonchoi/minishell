@@ -31,7 +31,7 @@ void	builtin_cd(char **cmd, t_data *data)
 		if (chdir(cmd[1]) == -1)
 		{
 			print_error(cmd[0], cmd[1], true);
-			data->exit_status = 1;
+			g_exit_status = 1;
 		}
 		else
 			cd_envp(data, old_cwd);

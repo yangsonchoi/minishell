@@ -24,7 +24,7 @@ void	builtin_env(char **cmd, t_data *data)
 	if (cmd[1] != NULL)
 	{
 		print_error(cmd[0], "usage: pwd with no options or arguments", NULL);
-		data->exit_status = 1;
+		g_exit_status = 1;
 	}
 	else
 	{
@@ -33,7 +33,7 @@ void	builtin_env(char **cmd, t_data *data)
 		{
 			if (ft_strchr(data->envp[i], '=') != NULL)
 				printf("%s\n", data->envp[i]);
-			data->exit_status = 0;
+			g_exit_status = 0;
 			i++;
 		}
 	}

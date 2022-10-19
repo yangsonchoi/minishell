@@ -13,7 +13,7 @@ void	err_sys(char *str);
 /*
 ** signals.c
 */
-
+void	set_signal(void);
 
 /*
 ** envp_add_change.c

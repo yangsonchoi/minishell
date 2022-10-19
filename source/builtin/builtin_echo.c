@@ -15,11 +15,11 @@
 #include "libft.h"
 #include <stdio.h>
 
-void	builtin_echo(char **cmd, t_data *data)
+void	builtin_echo(char **cmd)
 {
 	int	i;
 	
-	data->exit_status = 0;
+	g_exit_status = 0;
 	if (cmd[1] == NULL)
 	{	
 		printf("\n");

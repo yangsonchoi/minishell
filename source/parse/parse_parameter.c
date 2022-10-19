@@ -57,7 +57,7 @@ static int	expand_sign(t_token *token, int i, t_data *data)
 	parameter = NULL;
 	if (input[i + 1] == '?')
 	{
-		parameter = ft_itoa(data->exit_status);
+		parameter = ft_itoa(g_exit_status);
 		len++;
 	}
 	else

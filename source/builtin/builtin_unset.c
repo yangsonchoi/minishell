@@ -20,13 +20,13 @@ void	builtin_unset(char **cmd, t_data *data)
 {
 	int	i;
 	
-	data->exit_status = 0;
+	g_exit_status = 0;
 	i = 1;
 	while (cmd[i] != NULL)
 	{
 		if (ft_strchr(cmd[1], '=') != NULL || (cmd[i][0] >= '0' && cmd[i][0] <= '9'))
 		{
-			data->exit_status = 1;
+			g_exit_status = 1;
 			errno = 22;
 			print_error(cmd[0], cmd[i], true);
 		}

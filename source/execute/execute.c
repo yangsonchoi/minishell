@@ -16,7 +16,7 @@ void	execute_line(t_token_list *token_list, t_data *data)
 	if (check_pipe(token_list) == false)
 	{	
 		print_error("syntax error near unexpected token \'|\'", NULL, false);
-		data->exit_status = 2;
+		g_exit_status = 2;
 	}
 	else
 	{
@@ -56,7 +56,7 @@ void	execute_line(t_token_list *token_list, t_data *data)
 			else
 			{	
 				print_error("syntax error", "redirection", false);
-				data->exit_status = 2;
+				g_exit_status = 2;
 			}
 			free_cmd_list(cmd_list);
 			free(cmd_list);

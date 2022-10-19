@@ -28,13 +28,13 @@ void	builtin_export(char **cmd, t_data *data)
 	int		i;
 	char	*equal;
 
-	data->exit_status = 0;
+	g_exit_status = 0;
 	if (cmd[1] == NULL)
 		print_export(data);
 	else
 	{
 		i = 1;
-		data->exit_status = 0;
+		g_exit_status = 0;
 		while (cmd[i] != NULL)
 		{
 			equal = ft_strchr(cmd[i], '=');
@@ -42,7 +42,7 @@ void	builtin_export(char **cmd, t_data *data)
 			{
 				errno = 22;
 				print_error(cmd[0], cmd[i], true);
-				data->exit_status = 1;
+				g_exit_status = 1;
 			}
 			else
 				add_or_change_envp(cmd[i], data);
