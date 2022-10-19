@@ -19,7 +19,7 @@
 
 static void	build_pl(int cnt, pid_t **pids, int **pipes);
 static void	set_pipe(int child_i, int cnt, const int *pipes);
-static int	wait_and_get_exit_status(pid_t last_child);
+static int	wait_and_get_exit_status(pid_t *pids, int cnt);
 
 void	execute_pipe(int child_cnt, t_cmd **cmd_list, t_data *data)
 {
@@ -43,7 +43,7 @@ void	execute_pipe(int child_cnt, t_cmd **cmd_list, t_data *data)
 	while (fd_i < (child_cnt - 1) * 2)
 		close(pipe_fds[fd_i++]);
 	free(pipe_fds);
-	g_exit_status = wait_and_get_exit_status(child_pids[child_cnt - 1]);
+	g_exit_status = wait_and_get_exit_status(child_pids, child_cnt);
 	free(child_pids);
 }
 
@@ -103,14 +103,26 @@ static void	set_pipe(int child_i, int cnt, const int *pipes)
 	}
 }
 
-static int	wait_and_get_exit_status(pid_t last_child)
+static int	wait_and_get_exit_status(pid_t *pids, int cnt)
 {
 	int	status;
+	int	i;
 
-	if (waitpid(last_child, &status, 0) < 0)
-		err_sys("waitpid error");
-	while (wait(NULL) == -1)
-		;
+	i = 0;
+	while (i < cnt)
+	{
+		if (i == cnt - 1)
+		{
+			if (waitpid(pids[i], &status, 0) < 0)
+				err_sys("waitpid error");
+		}
+		else
+		{
+			if (waitpid(pids[i], NULL, 0) < 0)
+				err_sys("waitpid_error");
+		}
+		i++;
+	}
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
 	if (WIFSIGNALED(status))

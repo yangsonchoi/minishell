@@ -46,6 +46,7 @@ static void	reader_loop(t_data *data)
 	while (true)
 	{
 		input = readline("minishell$ ");
+		add_history(input);
 		if (input == NULL || check_syntax(input) == false)
 		{
 			printf("%s, syntax error\n", input); // writwe 2

@@ -23,13 +23,11 @@ void	print_error(char *cmd, char *input, bool err_status)
 	error_str = strerror(errno);
 	write(STDERR_FILENO, "minishell: ", 12);
 	if (cmd != NULL)
-	{
 		write(STDERR_FILENO, cmd, ft_strlen(cmd));
-
-	}
 	if (input != NULL)
 	{
-		write(STDERR_FILENO, ": ", 2);
+		if (cmd != NULL)
+			write(STDERR_FILENO, ": ", 2);
 		write(STDERR_FILENO, input, ft_strlen(input));
 	}
 	if (err_status == true && error_str != NULL)
