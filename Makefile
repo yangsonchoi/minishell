@@ -42,6 +42,7 @@ SRCS_LIST	= minishell.c				\
 			  $(B_DIR)builtin_env.c		\
 			  $(B_DIR)builtin_exit.c	\
 			  $(U_DIR)error.c			\
+			  $(U_DIR)signals.c			\
 			  $(U_DIR)envp_add_change.c \
 			  $(U_DIR)envp_remove.c
 

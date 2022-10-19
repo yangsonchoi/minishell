@@ -9,6 +9,11 @@
 */
 void	print_error(char *cmd, char *input, bool err_status);
 void	err_sys(char *str);
+
+/*
+** signals.c
+*/
+
 /*
 ** envp_add_change.c
 */

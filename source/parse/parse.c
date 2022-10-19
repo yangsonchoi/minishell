@@ -39,6 +39,7 @@ void	parse_input(char *input, t_data *data)
 		printf("word : %s\n", ((t_token *)temp->content)->word);
 		temp = temp->next;
 	}
-	execute_line(&token_list, data);
+	if (token_list.head != NULL)
+		execute_line(&token_list, data);
 	free_list(&token_list);
 }
