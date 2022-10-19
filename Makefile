@@ -24,7 +24,7 @@ E_DIR		= execute/
 B_DIR		= builtin/
 U_DIR		= utils/
 SRCS_LIST	= minishell.c				\
-			  $(P_DIR)parse.c		 	\
+			  $(P_DIR)parse.c			\
 			  $(P_DIR)parse_token.c		\
 			  $(P_DIR)parse_free.c		\
 			  $(P_DIR)parse_expand.c	\
@@ -32,7 +32,8 @@ SRCS_LIST	= minishell.c				\
 			  $(P_DIR)parse_quote.c		\
 			  $(E_DIR)execute.c			\
 			  $(E_DIR)execute_token.c	\
-			  $(E_DIR)execute_command.c	\
+			  $(E_DIR)execute_subsh.c	\
+			  $(E_DIR)execute_cmd.c		\
 			  $(E_DIR)execute_pipe.c	\
 			  $(B_DIR)builtin.c			\
 			  $(B_DIR)builtin_echo.c	\
@@ -43,6 +44,7 @@ SRCS_LIST	= minishell.c				\
 			  $(B_DIR)builtin_env.c		\
 			  $(B_DIR)builtin_exit.c	\
 			  $(U_DIR)error.c			\
+			  $(U_DIR)signals.c			\
 			  $(U_DIR)envp_add_change.c \
 			  $(U_DIR)envp_remove.c
 

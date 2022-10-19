@@ -1,11 +1,13 @@
 #include "minishell.h"
-#include <stdio.h>
 #include "libft.h"
-#include <stdbool.h>
-#include <readline/readline.h>
-#include <stdlib.h>
 #include "parse.h"
 #include "utils.h"
+#include <stdio.h>
+#include <stdbool.h>
+#include <readline/readline.h>
+#include <readline/history.h>
+#include <stdlib.h>
+
 
 static void	initialize(t_data *data, char **environ);
 static void	reader_loop(t_data *data);
