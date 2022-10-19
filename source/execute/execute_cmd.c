@@ -32,7 +32,10 @@ void	execute_cmd(char **cmd, t_data *data)
 	if (pid < 0)
 		err_sys("fork error", NULL);
 	else if (pid == 0)
+	{
+		data->is_interactive = false;
 		execute_extern_cmd(cmd, data->envp);
+	}
 	if (waitpid(pid, &status, 0) < 0)
 		err_sys("waitpid error", NULL);
 	if (WIFEXITED(status))
@@ -61,6 +64,7 @@ static void	execute_extern_cmd(char **cmd, char **envp)
 	char	*path;
 	char	*full_cmd;
 
+	set_signal_fork();
 	if (ft_strchr(cmd[0], '/'))
 		execute_cmd_with_slash(cmd, envp);
 	p = envp;

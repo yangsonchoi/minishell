@@ -1,6 +1,18 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: yachoi <yachoi@student.42seoul.kr>         +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2022/10/20 00:11:35 by yachoi            #+#    #+#              #
+#    Updated: 2022/10/20 00:11:37 by yachoi           ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME		= minishell
 
-CC			= cc -g
+CC			= cc
 CFLAGS		= -Wall -Werror -Wextra
 LDFLAGS		= -lreadline -lhistory -lft -L$(LIBFT_DIR) -L$(READ_DIR)
 INCLUDES	= -I$(HDRS_DIR) -I$(LIBFT_DIR) -I$(READ_HDRS)
@@ -55,7 +67,6 @@ SRCS_LIST	= minishell.c					\
 			  $(U_DIR)envp_remove.c			\
 			  $(U_DIR)get_next_line.c
 
-
 SRCS		= $(addprefix $(SRCS_DIR), $(SRCS_LIST))
 
 OBJS_DIR	= objects/
@@ -64,7 +75,7 @@ OBJS	= $(addprefix $(OBJS_DIR), $(OBJS_LIST))
 
 all : $(NAME)
 
-$(NAME) : $(LIBFT) $(READ) $(OBJS_DIR) $(OBJS)
+$(NAME) : $(LIBFT) rl $(OBJS_DIR) $(OBJS)
 	$(CC) $(CFLAGS) $(LDFLAGS) $(INCLUDES) $(OBJS) -o $(NAME)
 
 $(OBJS_DIR) :
@@ -83,12 +94,20 @@ $(LIBFT) :
 clean :
 	$(RM) $(RMFLAGS) $(OBJS_DIR) $(OBJS)
 	$(MAKE) -C $(LIBFT_DIR) clean
+	$(RM) $(RMFLAGS) rlsrc
 
 fclean : clean
-
 	$(RM) $(RMFLAGS) $(LIBFT)
 	$(RM) $(RMFLAGS) $(NAME)
+	$(RM) $(RMFLAGS) rl readline
 
 re : fclean $(NAME)
+
+rl :
+	git clone git://git.savannah.gnu.org/readline.git rlsrc
+	cd rlsrc && ./configure --prefix="${PWD}/readline"
+	$(MAKE) --directory=rlsrc
+	$(MAKE) --directory=rlsrc install
+	touch rl
 
 .PHONY : all clean fclean re

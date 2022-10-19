@@ -26,6 +26,9 @@ void	err_sys(char *front, char *back);
 ** signals.c
 */
 void	set_signal(void);
+void	sig_process(int sig);
+void	sig_readline(int sig);
+void	set_signal_fork(void);
 
 /*
 ** envp_add_change.c

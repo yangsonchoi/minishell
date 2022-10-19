@@ -6,7 +6,7 @@
 /*   By: yachoi <yachoi@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 18:46:27 by yachoi            #+#    #+#             */
-/*   Updated: 2022/10/19 18:46:29 by yachoi           ###   ########.fr       */
+/*   Updated: 2022/10/20 00:11:57 by yachoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@
 #include <signal.h>
 #include <termios.h>
 #include <unistd.h>
-
-static void	sig_handler(int sig);
+#include <stdlib.h>
 
 void	set_signal(void)
 {
@@ -29,11 +28,11 @@ void	set_signal(void)
 	tcgetattr(STDIN_FILENO, &s_term);
 	s_term.c_lflag &= ~(ECHOCTL);
 	tcsetattr(STDIN_FILENO, TCSANOW, &s_term);
-	signal(SIGINT, sig_handler);
+	signal(SIGINT, sig_readline);
 	signal(SIGQUIT, SIG_IGN);
 }
 
-static void	sig_handler(int sig)
+void	sig_readline(int sig)
 {
 	if (sig == SIGINT)
 	{
@@ -43,4 +42,16 @@ static void	sig_handler(int sig)
 		rl_redisplay();
 	}
 	g_exit_status = sig;
+}
+
+void	set_signal_fork(void)
+{
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
+}
+
+void	sig_process(int sig)
+{
+	if (sig == SIGINT)
+		printf("\n");
 }

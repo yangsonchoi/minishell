@@ -44,5 +44,5 @@ void	err_sys(char *front, char *back)
 	if (front != NULL)
 		ft_putstr_fd(front, 2);
 	ft_putendl_fd(back, 2);
-	exit(errno);
+	exit(1);
 }

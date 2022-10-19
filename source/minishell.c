@@ -20,6 +20,7 @@
 #include <readline/history.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <signal.h>
 
 static void	initialize(t_data *data, char **environ);
 static void	reader_loop(t_data *data);
@@ -54,6 +55,7 @@ static void	reader_loop(t_data *data)
 
 	while (true)
 	{
+		signal(SIGINT, sig_readline);
 		input = readline("minishell$ ");
 		add_history(input);
 		if (input == NULL)
@@ -66,7 +68,10 @@ static void	reader_loop(t_data *data)
 		else if (check_syntax(input) == false)
 			print_error("syntax error", NULL, false);
 		else
+		{
+			signal(SIGINT, sig_process);
 			parse_input(input, data);
+		}
 		free(input);
 	}
 }
